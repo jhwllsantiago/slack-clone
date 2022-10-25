@@ -1,0 +1,228 @@
+@import "../../assets/sass/variables";
+
+.channel-details {
+  width: 600px;
+  height: 720px;
+  position: fixed;
+  top: 50vh;
+  left: 50vw;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  background-color: $modal;
+  border-radius: 20px;
+  padding: 20px;
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: $dark;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: $gray;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  .channel-name {
+    font-size: 20px;
+    font-weight: bold;
+    padding: 0 10px;
+  }
+  .tabs {
+    display: flex;
+    gap: 20px;
+    padding: 10px;
+    padding-bottom: 0;
+    margin: 10px 0 0 0;
+    font-size: 14px;
+
+    .about-tab,
+    .members-tab,
+    .add-tab {
+      cursor: pointer;
+    }
+    .about-tab.active {
+      border-bottom: 2px solid $green;
+      padding-bottom: 10px;
+    }
+    .members-tab.active {
+      border-bottom: 2px solid $green;
+      padding-bottom: 10px;
+    }
+    .add-tab.active {
+      border-bottom: 2px solid $green;
+      padding-bottom: 10px;
+    }
+  }
+  hr {
+    border-top: 0px solid white;
+    opacity: 0.3;
+  }
+
+  .about {
+    margin: 20px;
+    border: 1px solid rgb(255, 255, 255, 0.3);
+    border-radius: 15px;
+
+    .section {
+      padding: 20px;
+
+      h4 {
+        margin-bottom: 5px;
+      }
+
+      .owner {
+        cursor: pointer;
+      }
+    }
+  }
+  .members-list {
+    width: 90%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    height: 500px;
+
+    .member {
+      display: grid;
+      grid-template-columns: 40px 1fr;
+      grid-template-rows: 40px;
+      gap: 15px;
+      align-items: center;
+      margin-bottom: 5px;
+      padding-right: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $dark;
+      }
+
+      .avatar {
+        width: 40px;
+        height: 40px;
+        border-radius: 5px;
+      }
+
+      div.letter-img {
+        background-color: $darker;
+        font-size: 30px;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 40px;
+        width: 40px;
+        height: 40px;
+        font-family: "Alice", serif;
+        color: $text-gray;
+      }
+
+      .member-details {
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .users-list {
+    width: 90%;
+    overflow-x: hidden;
+    overflow-y: auto;
+    position: absolute;
+    max-height: 480px;
+    z-index: 11;
+    background-color: $dark;
+    top: 180px;
+    border-radius: 5px;
+
+    .user {
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $highlight;
+      }
+
+      .user-details {
+        overflow-x: hidden;
+        text-overflow: ellipsis;
+      }
+    }
+  }
+
+  .query {
+    width: 100%;
+    margin: 20px 0;
+    position: relative;
+
+    .query-input {
+      width: 100%;
+      border: 1px solid rgb(255, 255, 255, 0.1);
+      border-radius: 5px;
+      padding: 5px 5px 5px 40px;
+      outline: none;
+
+      &:focus {
+        outline: 3px solid $blue;
+      }
+    }
+
+    .search-icon {
+      position: absolute;
+      font-size: 20px;
+      top: 10px;
+      left: 10px;
+    }
+  }
+  .new-member {
+    width: 95%;
+    display: grid;
+    grid-template-columns: 40px 1fr 20px;
+    grid-template-rows: 40px;
+    gap: 15px;
+    align-items: center;
+    margin-bottom: 5px;
+    border-radius: 5px;
+
+    div.letter-img {
+      background-color: $darker;
+      font-size: 30px;
+      border-radius: 5px;
+      text-align: center;
+      line-height: 40px;
+      width: 40px;
+      height: 40px;
+      font-family: "Alice", serif;
+      color: $text-gray;
+    }
+
+    .member-details {
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+    }
+    .delete-new {
+      font-size: 20px;
+      cursor: pointer;
+    }
+  }
+  .continue {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: inherit;
+    background-color: inherit;
+    border: none;
+    border-radius: 10px;
+    padding: 5px 15px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $darker;
+    }
+  }
+}

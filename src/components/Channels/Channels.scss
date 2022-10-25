@@ -1,0 +1,235 @@
+@import "../../assets/sass/variables";
+
+.channels {
+  color: $text-gray;
+
+  .main {
+    margin-top: 10px;
+    padding-bottom: 20px;
+
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-right: 15px;
+
+      &:hover {
+        .plus-icon {
+          display: block;
+        }
+      }
+
+      .plus-icon {
+        font-size: 20px;
+        height: 20px;
+        cursor: pointer;
+        display: none;
+      }
+    }
+
+    p {
+      font-size: 18px;
+      padding-left: 15px;
+    }
+  }
+
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9;
+    background-color: $backdrop;
+  }
+  .modal {
+    background-color: $modal;
+    position: fixed;
+    top: 50vh;
+    left: 50vw;
+    transform: translate(-50%, -50%);
+    width: 500px;
+    height: 600px;
+    z-index: 10;
+    color: white;
+    border-radius: 15px;
+    padding: 20px;
+
+    hr {
+      border-top: 0px solid white;
+      opacity: 0.3;
+      margin: 20px 0 10px 0;
+      width: 500px;
+      transform: translateX(-20px);
+    }
+
+    .search {
+      width: 100%;
+      margin: 10px 0;
+      position: relative;
+
+      .search-input {
+        width: 100%;
+        border: 1px solid rgb(255, 255, 255, 0.1);
+        border-radius: 5px;
+        padding: 5px 5px 5px 40px;
+        outline: none;
+
+        &:focus {
+          outline: 3px solid $blue;
+        }
+      }
+
+      .search-icon {
+        position: absolute;
+        font-size: 20px;
+        top: 10px;
+        left: 10px;
+      }
+    }
+
+    input {
+      display: block;
+      font-size: inherit;
+      background-color: inherit;
+      border: none;
+      outline: none;
+      color: inherit;
+    }
+
+    .channel-name {
+      margin-bottom: 10px;
+      width: 100%;
+
+      .flex-container {
+        display: flex;
+
+        input {
+          width: 200px;
+        }
+
+        .warning {
+          color: $red;
+          display: flex;
+          font-size: 20px;
+          align-items: center;
+          gap: 5px;
+
+          p {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+    .members {
+      max-width: 100%;
+
+      ::-webkit-scrollbar {
+        width: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: $dark;
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: $gray;
+        border-radius: 5px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #555;
+      }
+
+      .members-list {
+        width: 90%;
+        overflow-x: hidden;
+        overflow-y: auto;
+        position: absolute;
+        height: 240px;
+
+        .member {
+          display: grid;
+          grid-template-columns: 40px 1fr 20px;
+          grid-template-rows: 40px;
+          gap: 15px;
+          align-items: center;
+          margin-bottom: 5px;
+          padding-right: 10px;
+
+          div.letter-img {
+            background-color: $darker;
+            font-size: 30px;
+            border-radius: 5px;
+            text-align: center;
+            line-height: 40px;
+            width: 40px;
+            height: 40px;
+            font-family: "Alice", serif;
+            color: $text-gray;
+          }
+
+          span {
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+          }
+          .close {
+            cursor: pointer;
+          }
+        }
+      }
+      .add-member {
+        display: flex;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 10px;
+
+        input {
+          width: 100%;
+        }
+      }
+    }
+
+    button {
+      position: absolute;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: inherit;
+      background-color: inherit;
+      color: inherit;
+      border: none;
+      border-radius: 10px;
+      padding: 5px 15px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $darker;
+      }
+    }
+  }
+
+  .users-list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 320px;
+    min-height: 45px;
+    position: absolute;
+    z-index: 11;
+    background-color: $dark;
+    border-radius: 10px;
+    width: 90%;
+    padding: 10px 20px;
+    top: 220px;
+
+    li {
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+
+      &:hover {
+        background-color: $highlight;
+      }
+    }
+  }
+}

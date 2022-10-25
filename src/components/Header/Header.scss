@@ -1,0 +1,68 @@
+@import "../../assets/sass/variables";
+
+.header {
+  .main {
+    background-color: $darkest;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 5px 10px 5px 0;
+
+    img {
+      display: block;
+      width: 30px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+  }
+
+  .backdrop {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9;
+    background-color: transparent;
+  }
+  .modal {
+    background-color: $modal;
+    position: absolute;
+    top: 40px;
+    right: 10px;
+    width: 100%;
+    max-width: 300px;
+    z-index: 10;
+    color: white;
+    border-radius: 5px;
+
+    img {
+      display: block;
+      width: 50px;
+      border-radius: 5px;
+      margin: 20px;
+    }
+
+    hr {
+      margin: 5px 0;
+      border-top: 0px solid white;
+      opacity: 0.3;
+    }
+
+    .signed-in {
+      margin: 20px;
+    }
+
+    .sign-out {
+      padding: 5px 20px;
+      margin: 15px 0;
+      cursor: pointer;
+
+      &:hover {
+        background-color: $highlight;
+      }
+    }
+  }
+}

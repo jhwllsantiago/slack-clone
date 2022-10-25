@@ -1,0 +1,131 @@
+@import "../../assets/sass/variables";
+
+.new-message {
+  .main {
+    position: relative;
+    z-index: 2;
+    background-color: $dark;
+
+    p {
+      padding: 15px;
+    }
+
+    hr {
+      border-top: 0px solid white;
+      opacity: 0.3;
+    }
+
+    .search {
+      padding: 15px;
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      height: 65px;
+
+      input {
+        background-color: transparent;
+        border: none;
+        color: inherit;
+        width: 100%;
+        font-size: inherit;
+
+        &:focus {
+          outline: none;
+        }
+      }
+
+      .receiver {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        background-color: $receiver;
+        padding: 5px 5px 5px 10px;
+        border-radius: 5px;
+
+        .remove {
+          font-size: 20px;
+          padding: 3px;
+          border-radius: 5px;
+
+          &:hover {
+            cursor: pointer;
+            background-color: $darkest;
+          }
+        }
+      }
+    }
+  }
+  .users-list {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 50vh;
+    position: absolute;
+    width: 100%;
+    padding: 0 20px;
+
+    li {
+      padding: 5px;
+      overflow-x: hidden;
+      text-overflow: ellipsis;
+
+      &:hover {
+        background-color: $highlight;
+      }
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: $dark;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: $gray;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  .text-field {
+    width: 100%;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    input {
+      width: 100%;
+      background-color: inherit;
+      color: inherit;
+      padding: 30px 15px;
+      border: 1px solid white;
+      border-radius: 5px;
+      opacity: 0.5;
+      font-size: inherit;
+
+      &:focus {
+        outline: none;
+        opacity: 1;
+      }
+    }
+
+    span {
+      font-size: 20px;
+      position: absolute;
+      top: 40%;
+      right: 3%;
+      z-index: 2;
+      width: 50px;
+      height: 30px;
+      border-radius: 10px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+  }
+}

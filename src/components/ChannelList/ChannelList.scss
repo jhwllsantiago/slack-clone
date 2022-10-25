@@ -1,0 +1,58 @@
+@import "../../assets/sass/variables";
+
+.channel-list {
+  color: $text-gray;
+  position: relative;
+
+  .loading {
+    width: 150px;
+    position: relative;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .channels {
+    margin-top: 10px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    position: relative;
+    width: 100%;
+    max-height: calc(40vh - 40px);
+
+    .channel {
+      padding: 2px 20px 2px 20px;
+      cursor: pointer;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      text-decoration: none;
+      color: inherit;
+
+      &:hover {
+        background-color: $darker-hl;
+        color: white;
+      }
+    }
+  }
+
+  ::-webkit-scrollbar {
+    width: 0px;
+  }
+  ::-webkit-scrollbar-track {
+    background: $dark;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: $gray;
+    border-radius: 5px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+  }
+
+  &:hover {
+    ::-webkit-scrollbar {
+      width: 5px;
+    }
+  }
+}

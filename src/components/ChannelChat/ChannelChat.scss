@@ -1,0 +1,137 @@
+@import "../../assets/sass/variables";
+
+.channel-chat {
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 9;
+    background-color: $backdrop;
+  }
+
+  .main {
+    position: relative;
+    z-index: 4;
+    background-color: $dark;
+
+    .name {
+      padding: 10px 15px;
+      font-weight: bold;
+
+      .p {
+        cursor: pointer;
+        padding: 5px;
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        width: fit-content;
+
+        &:hover {
+          background-color: $dark-hl;
+        }
+      }
+    }
+    .reload-icon {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 20px;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    .manage-channel {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      right: 50px;
+      cursor: pointer;
+      padding: 5px;
+      border-radius: 10px;
+      border: 1px solid rgb(154, 153, 156, 0.3);
+
+      .member-0,
+      .member-1,
+      .member-2 {
+        display: inline-block;
+        background-color: $red;
+        font-size: 15px;
+        border-radius: 5px;
+        text-align: center;
+        line-height: 20px;
+        width: 20px;
+        height: 20px;
+        font-family: "Alice", serif;
+        color: white;
+        position: relative;
+      }
+      .member-0 {
+        z-index: 8;
+        background-color: $violet;
+      }
+      .member-1 {
+        z-index: 7;
+        background-color: $blue;
+        transform: translateX(-5px);
+      }
+      .member-2 {
+        z-index: 6;
+        background-color: $yellow;
+        transform: translateX(-10px);
+      }
+
+      .member-number {
+        display: inline-block;
+        margin-left: 5px;
+        font-family: "Open Sans", sans-serif;
+      }
+    }
+    hr {
+      border-top: 0px solid white;
+      opacity: 0.3;
+    }
+  }
+  .text-field {
+    width: 100%;
+    padding: 20px;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    input {
+      width: 100%;
+      background-color: inherit;
+      color: inherit;
+      padding: 30px 15px;
+      border: 1px solid white;
+      border-radius: 5px;
+      opacity: 0.5;
+      font-size: inherit;
+
+      &:focus {
+        outline: none;
+        opacity: 1;
+      }
+    }
+
+    span {
+      font-size: 20px;
+      position: absolute;
+      top: 40%;
+      right: 3%;
+      z-index: 2;
+      width: 50px;
+      height: 30px;
+      border-radius: 10px;
+      display: inline-flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0.8;
+      cursor: not-allowed;
+    }
+  }
+}
