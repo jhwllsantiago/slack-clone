@@ -7,10 +7,8 @@ import getTime from "../../util/getTime";
 import getDate from "../../util/getDate";
 
 const DisplayMessages = ({ id, type }) => {
-  const signed_in = localStorage.getItem("signed_in");
-  const contacts = localStorage.getItem(`${signed_in}-contacts`)
-    ? JSON.parse(localStorage.getItem(`${signed_in}-contacts`))
-    : [];
+  const signed_in = parseInt(localStorage.getItem("signed_in"));
+  const contacts = JSON.parse(localStorage.getItem(`${signed_in}-contacts`));
   const bottomRef = useRef();
   const {
     data: messages,
@@ -25,40 +23,33 @@ const DisplayMessages = ({ id, type }) => {
   return (
     <div className="display-messages">
       {isLoading && <img src={loadingGif} alt="" className="loading" />}
-      {!isLoading && messages && (
+      {!isLoading && (
         <ul className="message-list">
           {messages
-            .filter((item) => item.sender.id !== item.receiver.id)
-            .map((item) => {
-              const checker = item.sender.email === localStorage.getItem("uid");
-              const contact = contacts.find(
-                (contact) => contact.id === item.sender.id
+            ?.filter(({ sender, receiver }) => sender.id !== receiver.id)
+            .map(({ id, sender, body, created_at }) => {
+              const checker = sender.id === signed_in;
+              const contact = contacts?.find(
+                (contact) => contact.id === sender.id
               );
               return (
-                <li key={item.id} className="message-item">
+                <li key={id} className="message-item">
                   {checker && <img src={avatar} alt="" className="avatar" />}
                   {!checker && (
                     <div className="letter-img">
-                      {(contact
-                        ? contact.name || contact.email
-                        : item.sender.email
-                      )
+                      {(contact?.name ?? sender.email)
                         .substring(0, 1)
                         .toUpperCase()}
                     </div>
                   )}
                   <p className="message-details">
                     <span className="name">
-                      {checker
-                        ? "You"
-                        : contact
-                        ? contact.name || contact.email
-                        : item.sender.email}
+                      {checker ? "You" : contact?.name ?? sender.email}
                     </span>
-                    <span className="time"> {getTime(item.created_at)}</span>
-                    <span className="date"> {getDate(item.created_at)}</span>
+                    <span className="time"> {getTime(created_at)}</span>
+                    <span className="date"> {getDate(created_at)}</span>
                   </p>
-                  <p className="message">{item.body}</p>
+                  <p className="message">{body}</p>
                 </li>
               );
             })}
