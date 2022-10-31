@@ -10,34 +10,39 @@ const DisplayMessages = ({ id, type }) => {
   const signed_in = parseInt(localStorage.getItem("signed_in"));
   const contacts = JSON.parse(localStorage.getItem(`${signed_in}-contacts`));
   const bottomRef = useRef();
-  const {
-    data: messages,
-    isLoading,
-    error,
-  } = useGET(`messages?receiver_id=${id}&receiver_class=${type}`);
+  const { data, isLoading, error } = useGET(
+    `messages?receiver_id=${id}&receiver_class=${type}`
+  );
 
   useEffect(() => {
     if (!isLoading) bottomRef.current?.scrollIntoView();
-  }, [isLoading, messages]);
+  }, [isLoading, data]);
 
   return (
     <div className="display-messages">
       {isLoading && <img src={loadingGif} alt="" className="loading" />}
       {!isLoading && (
         <ul className="message-list">
-          {messages?.reduce((nodes, message, idx) => {
-            const { body, created_at, id, sender } = message;
-            const dateExists = nodes.some((node) => {
-              return (
-                node.props?.children[0].props?.children === getDate(created_at)
-              );
-            });
+          {data?.map(({ body, created_at, id, sender }, idx, messages) => {
+            const isDateExisting =
+              getDate(messages[idx - 1]?.created_at) === getDate(created_at);
+            const isSameSender =
+              messages[idx - 1]?.sender.email === sender.email;
             const checker = sender.id === signed_in;
             const contact = contacts?.find(
               (contact) => contact.id === sender.id
             );
 
-            const newNode = (
+            if (isSameSender && isDateExisting) {
+              return (
+                <li key={id} className="message-body-only">
+                  <span>{getTime(created_at).slice(0, 5)}</span>
+                  <p>{body}</p>
+                </li>
+              );
+            }
+
+            const newChat = (
               <li key={id} className="message-item">
                 {checker && <img src={avatar} alt="" className="avatar" />}
                 {!checker && (
@@ -51,25 +56,26 @@ const DisplayMessages = ({ id, type }) => {
                   <span className="name">
                     {checker ? "You" : contact?.name ?? sender.email}
                   </span>
-                  <span className="time"> {getTime(created_at)}</span>
+                  <span className="time">{getTime(created_at)}</span>
                 </p>
                 <p className="message">{body}</p>
               </li>
             );
 
-            if (dateExists) {
-              return [...nodes, newNode];
+            if (isDateExisting) {
+              return newChat;
+            } else {
+              return (
+                <>
+                  <p className="date" key={idx}>
+                    <span>{getDate(created_at)}</span>
+                    <hr />
+                  </p>
+                  {newChat}
+                </>
+              );
             }
-
-            return [
-              ...nodes,
-              <li className="date" key={idx}>
-                <span>{getDate(created_at)}</span>
-                <hr />
-              </li>,
-              newNode,
-            ];
-          }, [])}
+          })}
           <div ref={bottomRef} />
         </ul>
       )}

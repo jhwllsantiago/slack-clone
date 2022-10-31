@@ -6,6 +6,7 @@
   left: 0;
   width: 100%;
   height: calc(100vh - 197px);
+  font-size: 15px;
 
   .loading {
     display: block;
@@ -63,6 +64,44 @@
         width: 100%;
         border-top: 0px solid white;
         opacity: 0.1;
+      }
+    }
+
+    .message-body-only {
+      display: grid;
+      width: 100%;
+      grid-template-columns: 40px auto;
+      grid-template-rows: auto;
+      padding: 5px 20px;
+      column-gap: 10px;
+      align-items: center;
+      position: relative;
+      top: calc(100vh - 290px);
+
+      &:hover {
+        background-color: $dark-hl;
+
+        span {
+          display: block;
+        }
+      }
+
+      span {
+        font-size: 12px;
+        display: none;
+        width: 100%;
+        height: 23px;
+        line-height: 23px;
+        align-self: start;
+        opacity: 0.5;
+        text-align: right;
+      }
+      p {
+        grid-area: 1/2/2/3;
+        width: 100%;
+        overflow-wrap: break-word;
+        word-wrap: break-word;
+        word-break: break-all;
       }
     }
 
