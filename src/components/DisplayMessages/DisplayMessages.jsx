@@ -29,7 +29,7 @@ const DisplayMessages = ({ id, type }) => {
             const { body, created_at, id, sender } = message;
             const dateExists = nodes.some((node) => {
               return (
-                node.props.children.props?.children === getDate(created_at)
+                node.props?.children[0].props?.children === getDate(created_at)
               );
             });
             const checker = sender.id === signed_in;
@@ -65,6 +65,7 @@ const DisplayMessages = ({ id, type }) => {
               ...nodes,
               <li className="date" key={idx}>
                 <span>{getDate(created_at)}</span>
+                <hr />
               </li>,
               newNode,
             ];

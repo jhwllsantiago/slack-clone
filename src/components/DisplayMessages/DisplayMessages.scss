@@ -49,9 +49,20 @@
       font-family: "Open Sans", sans-serif;
 
       span {
-        border: 1px solid rgb(255, 255, 255, 0.5);
+        border: 1px solid rgb(255, 255, 255, 0.1);
         border-radius: 15px;
         padding: 5px 15px;
+        background-color: $dark;
+        color: rgba(209, 210, 200, 255);
+        z-index: 1;
+      }
+
+      hr {
+        position: absolute;
+        top: 20px;
+        width: 100%;
+        border-top: 0px solid white;
+        opacity: 0.1;
       }
     }
 
