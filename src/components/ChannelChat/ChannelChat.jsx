@@ -9,6 +9,7 @@ import ChannelDetails from "../ChannelDetails/ChannelDetails";
 import { FaLock } from "react-icons/fa";
 import { BiChevronDown } from "react-icons/bi";
 import MessagePane from "../MessagePane/MessagePane";
+import { useQueryClient } from "@tanstack/react-query";
 
 const ChannelChat = ({ users }) => {
   const { id } = useParams();
@@ -16,8 +17,8 @@ const ChannelChat = ({ users }) => {
   const [details, setDetails] = useState(null);
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
-  const [seed, setSeed] = useState(1);
   const [showModal, setShowModal] = useState(false);
+  const queryClient = useQueryClient();
 
   useEffect(() => {
     if (data) setDetails(data);
@@ -43,14 +44,14 @@ const ChannelChat = ({ users }) => {
       const result = await postMessage(body);
       if (result.success) {
         setMessage("");
-        setSeed(Math.random());
+        //refetch();
       }
     }
   };
 
   return (
     <div className="channel-chat">
-      <DisplayMessages key={seed} id={id} type={"Channel"} />
+      <DisplayMessages id={id} type={"Channel"} />
       {showModal && (
         <div className="backdrop" onClick={() => setShowModal(false)}></div>
       )}
@@ -75,7 +76,12 @@ const ChannelChat = ({ users }) => {
           </div>
           <AiOutlineReload
             className="reload-icon"
-            onClick={() => setSeed(Math.random())}
+            onClick={() => {
+              queryClient.refetchQueries([`Channel${id}`], {
+                type: "active",
+                exact: true,
+              });
+            }}
           />
 
           <div className="manage-channel" onClick={() => setShowModal(true)}>

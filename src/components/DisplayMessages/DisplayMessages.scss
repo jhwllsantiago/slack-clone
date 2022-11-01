@@ -8,14 +8,6 @@
   height: calc(100vh - 197px);
   font-size: 15px;
 
-  .loading {
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
-
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -57,14 +49,14 @@
         color: rgba(209, 210, 200, 255);
         z-index: 1;
       }
+    }
 
-      hr {
-        position: absolute;
-        top: 20px;
-        width: 100%;
-        border-top: 0px solid white;
-        opacity: 0.1;
-      }
+    .hr {
+      position: relative;
+      top: calc(100vh - 310px);
+      width: 100%;
+      border-top: 1px solid white;
+      opacity: 0.1;
     }
 
     .message-body-only {
@@ -165,4 +157,21 @@
       word-break: break-all;
     }
   }
+}
+
+.loading {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 20px;
+  color: $red;
 }
