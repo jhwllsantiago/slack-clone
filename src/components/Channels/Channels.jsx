@@ -7,7 +7,7 @@ import postCreateChannel from "../../api/postCreateChannel";
 import { BiSearch } from "react-icons/bi";
 
 const Channels = ({ contacts, users }) => {
-  const signed_in = localStorage.getItem("signed_in");
+  const signedIn = localStorage.getItem("signedIn");
   const [showModal, setShowModal] = useState(false);
   const [channel, setChannel] = useState("");
   const [members, setMembers] = useState([]);
@@ -116,7 +116,7 @@ const Channels = ({ contacts, users }) => {
                 <ul className="users-list">
                   {contacts.concat(users).map((user, idx) => {
                     if (
-                      user.id === parseInt(signed_in) ||
+                      user.id === parseInt(signedIn) ||
                       members.some((member) => member.id === user.id) ||
                       !(
                         user.email.startsWith(query) ||

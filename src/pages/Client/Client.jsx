@@ -14,14 +14,14 @@ const Client = () => {
     queryKey: ["users"],
     queryFn: getUsers,
   });
-  const signed_in = localStorage.getItem("signed_in");
-  const initial = localStorage.getItem(`${signed_in}-contacts`)
-    ? JSON.parse(localStorage.getItem(`${signed_in}-contacts`))
+  const signedIn = localStorage.getItem("signedIn");
+  const initial = localStorage.getItem(`${signedIn}-contacts`)
+    ? JSON.parse(localStorage.getItem(`${signedIn}-contacts`))
     : [];
   const [contacts, setContacts] = useState(initial);
   const { accessToken, client, expiry, uid } = getHeaders();
 
-  if (!(signed_in && accessToken && client && expiry && uid)) {
+  if (!(signedIn && accessToken && client && expiry && uid)) {
     return <Navigate to={"/signin"} replace />;
   }
   return (

@@ -13,7 +13,7 @@ const Header = () => {
     localStorage.removeItem("client");
     localStorage.removeItem("expiry");
     localStorage.removeItem("uid");
-    localStorage.removeItem("signed_in");
+    localStorage.removeItem("signedIn");
     navigate("/signin");
   };
 

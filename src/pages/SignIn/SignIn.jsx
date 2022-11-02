@@ -35,7 +35,7 @@ const SignIn = () => {
         if (result.success === false) {
           setErrors(result.errors);
         } else {
-          localStorage.setItem("signed_in", result.data.id);
+          localStorage.setItem("signedIn", result.data.id);
           navigate("/client");
         }
       });

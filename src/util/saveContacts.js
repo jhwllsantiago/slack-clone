@@ -1,13 +1,13 @@
 const saveContacts = (email, id) => {
-  const signed_in = localStorage.getItem("signed_in");
-  const contacts = localStorage.getItem(`${signed_in}-contacts`)
-    ? JSON.parse(localStorage.getItem(`${signed_in}-contacts`))
+  const signedIn = localStorage.getItem("signedIn");
+  const contacts = localStorage.getItem(`${signedIn}-contacts`)
+    ? JSON.parse(localStorage.getItem(`${signedIn}-contacts`))
     : [];
 
   const checker = contacts.some((contact) => contact.email === email);
   if (!checker) {
     localStorage.setItem(
-      `${signed_in}-contacts`,
+      `${signedIn}-contacts`,
       JSON.stringify([...contacts, { name: null, email, id }])
     );
   }

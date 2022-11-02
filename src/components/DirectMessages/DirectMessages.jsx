@@ -4,7 +4,7 @@ import "./DirectMessages.scss";
 import { NavLink } from "react-router-dom";
 
 const DirectMessages = ({ contacts, setContacts }) => {
-  const signed_in = localStorage.getItem("signed_in");
+  const signedIn = localStorage.getItem("signedIn");
   const [newInfo, setNewInfo] = useState("");
   const [newInfoIdx, setNewInfoIdx] = useState(-1);
 
@@ -22,7 +22,7 @@ const DirectMessages = ({ contacts, setContacts }) => {
     });
     setContacts(updatedDMs);
     setNewInfoIdx(-1);
-    localStorage.setItem(`${signed_in}-contacts`, JSON.stringify(updatedDMs));
+    localStorage.setItem(`${signedIn}-contacts`, JSON.stringify(updatedDMs));
   };
 
   return (

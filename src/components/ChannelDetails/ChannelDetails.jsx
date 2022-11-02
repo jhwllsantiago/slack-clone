@@ -15,7 +15,7 @@ const ChannelDetails = ({
   users,
   setShowModal,
 }) => {
-  const signed_in = parseInt(localStorage.getItem("signed_in"));
+  const signedIn = parseInt(localStorage.getItem("signedIn"));
   const navigate = useNavigate();
   const [tab, setTab] = useState(2);
   const [query, setQuery] = useState("");
@@ -83,7 +83,7 @@ const ChannelDetails = ({
         >
           Members {members.length}
         </span>
-        {signed_in === owner.id && (
+        {signedIn === owner.id && (
           <span
             className={tab === 3 ? "add-tab active" : "add-tab"}
             onClick={() => {
@@ -118,7 +118,7 @@ const ChannelDetails = ({
             <p
               className="owner"
               onClick={() => {
-                if (signed_in !== owner.id)
+                if (signedIn !== owner.id)
                   navigate(`/client/message/u/${owner.id}`);
               }}
             >
@@ -145,7 +145,7 @@ const ChannelDetails = ({
       {tab === 2 && (
         <ul className="members-list">
           {(query ? filtered : members).map((member, idx) => {
-            const checker = member.id === signed_in;
+            const checker = member.id === signedIn;
             return (
               <li
                 key={idx}

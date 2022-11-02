@@ -2,10 +2,10 @@ import avatar from "../../assets/images/avatar.png";
 import getTime from "../../util/getTime";
 
 const FullMessage = ({ data: { body, created_at, sender } }) => {
-  const signed_in = parseInt(localStorage.getItem("signed_in"));
-  const contacts = JSON.parse(localStorage.getItem(`${signed_in}-contacts`));
+  const signedIn = parseInt(localStorage.getItem("signedIn"));
+  const contacts = JSON.parse(localStorage.getItem(`${signedIn}-contacts`));
   const contact = contacts?.find((contact) => contact.id === sender.id);
-  const isSenderSignedIn = sender.id === signed_in;
+  const isSenderSignedIn = sender.id === signedIn;
   return (
     <li className="full-message">
       {isSenderSignedIn && <img src={avatar} alt="" className="avatar" />}

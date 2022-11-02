@@ -7,7 +7,7 @@ import saveContacts from "../../util/saveContacts";
 import MessagePane from "../MessagePane/MessagePane";
 
 const NewMessage = ({ users, contacts, setContacts }) => {
-  const signed_in = localStorage.getItem("signed_in");
+  const signedIn = localStorage.getItem("signedIn");
   const [query, setQuery] = useState("");
   const [receiver, setReceiver] = useState(null);
   const [message, setMessage] = useState("");
@@ -80,7 +80,7 @@ const NewMessage = ({ users, contacts, setContacts }) => {
       {users && query && (
         <ul className="users-list">
           {users.map((user) => {
-            if (user.id.toString() === signed_in) return null;
+            if (user.id.toString() === signedIn) return null;
             if (!user.email.startsWith(query)) return null;
             return (
               <li key={user.id} onClick={() => handleUserClick(user)}>
