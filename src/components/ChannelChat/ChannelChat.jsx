@@ -4,16 +4,20 @@ import DisplayMessages from "../DisplayMessages/DisplayMessages";
 import { useEffect, useState } from "react";
 import { AiOutlineReload } from "react-icons/ai";
 import postMessage from "../../api/postMessage";
-import useGET from "../../hooks/useGET";
 import ChannelDetails from "../ChannelDetails/ChannelDetails";
 import { FaLock } from "react-icons/fa";
 import { BiChevronDown } from "react-icons/bi";
 import MessagePane from "../MessagePane/MessagePane";
-import { useQueryClient } from "@tanstack/react-query";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getChannelDetails } from "../../api/get";
+import loadingGif from "../../assets/images/circles.gif";
 
 const ChannelChat = ({ users }) => {
   const { id } = useParams();
-  const { data, isLoading } = useGET(`channels/${id}`);
+  const { data, error, status } = useQuery({
+    queryKey: [id, "channel details"],
+    queryFn: getChannelDetails,
+  });
   const [details, setDetails] = useState(null);
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
@@ -44,11 +48,16 @@ const ChannelChat = ({ users }) => {
       const result = await postMessage(body);
       if (result.success) {
         setMessage("");
-        //refetch();
       }
     }
   };
 
+  if (status === "loading") {
+    return <img src={loadingGif} alt="" className="loading" />;
+  }
+  if (status === "error") {
+    return <div className="error-message">{error.message}</div>;
+  }
   return (
     <div className="channel-chat">
       <DisplayMessages id={id} type={"Channel"} />
@@ -65,45 +74,44 @@ const ChannelChat = ({ users }) => {
         />
       )}
 
-      {!isLoading && (
-        <div className="main">
-          <div className="name">
-            <p className="p" onClick={() => setShowModal(true)}>
-              <FaLock />
-              <span>{details && details.name}</span>
-              <BiChevronDown />
-            </p>
-          </div>
-          <AiOutlineReload
-            className="reload-icon"
-            onClick={() => {
-              queryClient.refetchQueries([id, "Channel"]);
-            }}
-          />
-
-          <div className="manage-channel" onClick={() => setShowModal(true)}>
-            {members.slice(0, 3).map((member, idx) => {
-              return (
-                <div className={`member-${idx}`} key={idx}>
-                  {member.email.substring(0, 1).toUpperCase()}
-                </div>
-              );
-            })}
-            <div className="member-number">{members.length}</div>
-          </div>
-
-          <hr />
+      <div className="main">
+        <div className="name">
+          <p className="p" onClick={() => setShowModal(true)}>
+            <FaLock />
+            <span>{details && details.name}</span>
+            <BiChevronDown />
+          </p>
         </div>
-      )}
-
-      {!isLoading && details && (
-        <MessagePane
-          message={message}
-          setMessage={setMessage}
-          placeholder={`Message ${details.name}`}
-          onClick={handleSendClick}
+        <AiOutlineReload
+          className="reload-icon"
+          onClick={() => {
+            queryClient.refetchQueries({
+              queryKey: [id, "Channel"],
+              exact: true,
+            });
+          }}
         />
-      )}
+
+        <div className="manage-channel" onClick={() => setShowModal(true)}>
+          {members.slice(0, 3).map((member, idx) => {
+            return (
+              <div className={`member-${idx}`} key={idx}>
+                {member.email.substring(0, 1).toUpperCase()}
+              </div>
+            );
+          })}
+          <div className="member-number">{members.length}</div>
+        </div>
+
+        <hr />
+      </div>
+
+      <MessagePane
+        message={message}
+        setMessage={setMessage}
+        placeholder={`Message ${details?.name}`}
+        onClick={handleSendClick}
+      />
     </div>
   );
 };
