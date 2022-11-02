@@ -1,4 +1,4 @@
-import loadingGif from "../../assets/images/circles.gif";
+import loadingGif from "../../assets/images/circle.gif";
 import "./DisplayMessages.scss";
 import { useEffect, useRef, Fragment } from "react";
 import getDate from "../../util/getDate";

@@ -10,7 +10,7 @@ import { BiChevronDown } from "react-icons/bi";
 import MessagePane from "../MessagePane/MessagePane";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getChannelDetails } from "../../api/get";
-import loadingGif from "../../assets/images/circles.gif";
+import loadingGif from "../../assets/images/circle.gif";
 
 const ChannelChat = ({ users }) => {
   const { id } = useParams();
