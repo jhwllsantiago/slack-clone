@@ -4,7 +4,7 @@ const getHeaders = () => {
   const expiry = localStorage.getItem("expiry");
   const uid = localStorage.getItem("uid");
 
-  return { accessToken, client, expiry, uid };
+  return { "access-token": accessToken, client, expiry, uid };
 };
 
 export default getHeaders;

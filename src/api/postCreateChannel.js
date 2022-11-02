@@ -7,10 +7,7 @@ const postCreateChannel = async (body) => {
     body: JSON.stringify(body),
     headers: {
       "Content-Type": "application/json",
-      "access-token": accessToken,
-      client,
-      expiry,
-      uid,
+      ...getHeaders(),
     },
   })
     .then((response) => response.json())

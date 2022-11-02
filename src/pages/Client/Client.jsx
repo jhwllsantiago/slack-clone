@@ -19,7 +19,7 @@ const Client = () => {
     ? JSON.parse(localStorage.getItem(`${signedIn}-contacts`))
     : [];
   const [contacts, setContacts] = useState(initial);
-  const { accessToken, client, expiry, uid } = getHeaders();
+  const { "access-token": accessToken, client, expiry, uid } = getHeaders();
 
   if (!(signedIn && accessToken && client && expiry && uid)) {
     return <Navigate to={"/signin"} replace />;
@@ -34,7 +34,7 @@ const Client = () => {
           <Body users={data} contacts={contacts} setContacts={setContacts} />
         </div>
       )}
-      {error && <div>{error}</div>}
+      {error && <div>{error.message}</div>}
     </div>
   );
 };

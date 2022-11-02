@@ -6,10 +6,11 @@ import getHeaders from "../../util/getHeaders";
 const Home = () => {
   const navigate = useNavigate();
   const signedIn = localStorage.getItem("signedIn");
-  const { accessToken, client, expiry, uid } = getHeaders();
-  const checker = signedIn && accessToken && client && expiry && uid;
+  const { "access-token": accessToken, client, expiry, uid } = getHeaders();
 
-  if (checker) return <Navigate to={"/client"} replace />;
+  if (signedIn && accessToken && client && expiry && uid) {
+    return <Navigate to={"/client"} replace />;
+  }
   return (
     <div className="home">
       <div className="main">
