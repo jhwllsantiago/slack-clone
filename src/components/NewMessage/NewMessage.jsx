@@ -2,7 +2,7 @@ import { useState } from "react";
 import "./NewMessage.scss";
 import { AiOutlineClose } from "react-icons/ai";
 import DisplayMessages from "../DisplayMessages/DisplayMessages";
-import postMessage from "../../fetch/postMessage";
+import postMessage from "../../api/postMessage";
 import saveContacts from "../../util/saveContacts";
 import MessagePane from "../MessagePane/MessagePane";
 

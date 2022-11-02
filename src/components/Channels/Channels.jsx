@@ -3,7 +3,7 @@ import { useState } from "react";
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { MdErrorOutline } from "react-icons/md";
 import ChannelList from "../ChannelList/ChannelList";
-import postCreateChannel from "../../fetch/postCreateChannel";
+import postCreateChannel from "../../api/postCreateChannel";
 import { BiSearch } from "react-icons/bi";
 
 const Channels = ({ contacts, users }) => {

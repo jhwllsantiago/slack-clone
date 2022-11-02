@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import "./DirectChat.scss";
 import DisplayMessages from "../DisplayMessages/DisplayMessages";
-import postMessage from "../../fetch/postMessage";
+import postMessage from "../../api/postMessage";
 import { useState } from "react";
 import { AiOutlineReload } from "react-icons/ai";
 import saveContacts from "../../util/saveContacts";

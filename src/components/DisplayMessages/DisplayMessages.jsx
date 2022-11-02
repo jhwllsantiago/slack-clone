@@ -5,19 +5,21 @@ import React, { useEffect, useRef } from "react";
 import getTime from "../../util/getTime";
 import getDate from "../../util/getDate";
 import { useQuery } from "@tanstack/react-query";
-import apiClient from "../../fetch/apiClient";
+import apiClient from "../../api/apiClient";
 
 const DisplayMessages = ({ id, type }) => {
   const signed_in = parseInt(localStorage.getItem("signed_in"));
   const contacts = JSON.parse(localStorage.getItem(`${signed_in}-contacts`));
   const bottomRef = useRef();
-  const { data, error, status } = useQuery([`${type}${id}`], async () => {
-    const response = await apiClient
-      .get(`/messages?receiver_id=${id}&receiver_class=${type}`)
-      .catch((err) => {
+  const endpoint = `messages?receiver_id=${id}&receiver_class=${type}`;
+  const { data, error, status } = useQuery({
+    queryKey: [id, type, endpoint],
+    queryFn: async () => {
+      const response = await apiClient.get(endpoint).catch((err) => {
         throw Error(err.message);
       });
-    return await response?.data.data;
+      return await response?.data.data;
+    },
   });
 
   useEffect(() => {

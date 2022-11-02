@@ -3,7 +3,7 @@ import "./ChannelChat.scss";
 import DisplayMessages from "../DisplayMessages/DisplayMessages";
 import { useEffect, useState } from "react";
 import { AiOutlineReload } from "react-icons/ai";
-import postMessage from "../../fetch/postMessage";
+import postMessage from "../../api/postMessage";
 import useGET from "../../hooks/useGET";
 import ChannelDetails from "../ChannelDetails/ChannelDetails";
 import { FaLock } from "react-icons/fa";
@@ -77,10 +77,7 @@ const ChannelChat = ({ users }) => {
           <AiOutlineReload
             className="reload-icon"
             onClick={() => {
-              queryClient.refetchQueries([`Channel${id}`], {
-                type: "active",
-                exact: true,
-              });
+              queryClient.refetchQueries([id, "Channel"]);
             }}
           />
 

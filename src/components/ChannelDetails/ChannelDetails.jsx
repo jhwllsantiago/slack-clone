@@ -4,7 +4,7 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { FaLock } from "react-icons/fa";
-import postAddMember from "../../fetch/postAddMember";
+import postAddMember from "../../api/postAddMember";
 import getDate from "../../util/getDate";
 import avatar from "../../assets/images/avatar.png";
 
