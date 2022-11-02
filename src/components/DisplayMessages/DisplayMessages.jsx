@@ -1,25 +1,19 @@
 import loadingGif from "../../assets/images/circles.gif";
 import "./DisplayMessages.scss";
 import avatar from "../../assets/images/avatar.png";
-import React, { useEffect, useRef } from "react";
+import { useEffect, useRef, Fragment } from "react";
 import getTime from "../../util/getTime";
 import getDate from "../../util/getDate";
 import { useQuery } from "@tanstack/react-query";
-import apiClient from "../../api/apiClient";
+import { getMessages } from "../../api/get";
 
 const DisplayMessages = ({ id, type }) => {
   const signed_in = parseInt(localStorage.getItem("signed_in"));
   const contacts = JSON.parse(localStorage.getItem(`${signed_in}-contacts`));
   const bottomRef = useRef();
-  const endpoint = `messages?receiver_id=${id}&receiver_class=${type}`;
   const { data, error, status } = useQuery({
-    queryKey: [id, type, endpoint],
-    queryFn: async () => {
-      const response = await apiClient.get(endpoint).catch((err) => {
-        throw Error(err.message);
-      });
-      return await response?.data.data;
-    },
+    queryKey: [id, type],
+    queryFn: getMessages,
   });
 
   useEffect(() => {
@@ -75,13 +69,13 @@ const DisplayMessages = ({ id, type }) => {
             return newChat;
           } else {
             return (
-              <React.Fragment key={idx}>
+              <Fragment key={idx}>
                 <p className="date">
                   <span>{getDate(created_at)}</span>
                 </p>
                 <hr className="hr" />
                 {newChat}
-              </React.Fragment>
+              </Fragment>
             );
           }
         })}
