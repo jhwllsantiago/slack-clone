@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import Body from "../../components/Body/Body";
 import Header from "../../components/Header/Header";
@@ -6,10 +6,18 @@ import Sidebar from "../../components/Sidebar/Sidebar";
 import "./Client.scss";
 import loadingGif from "../../assets/images/circle.gif";
 import getHeaders from "../../util/getHeaders";
-import { useQuery } from "@tanstack/react-query";
-import { getUsers } from "../../api/get";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { getChannelList, getUsers } from "../../api/get";
 
 const Client = () => {
+  const queryClient = useQueryClient();
+  useEffect(() => {
+    queryClient.prefetchQuery({
+      queryKey: ["channels"],
+      queryFn: getChannelList,
+    }); // eslint-disable-next-line
+  }, []);
+
   const { data, isLoading, error } = useQuery({
     queryKey: ["users"],
     queryFn: getUsers,

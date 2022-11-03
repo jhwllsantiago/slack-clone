@@ -6,6 +6,7 @@ import Password from "../../components/Password/Password";
 import Email from "../../components/Email/Email";
 import { useNavigate } from "react-router-dom";
 import setHeaders from "../../util/setHeaders";
+import { auth } from "../../api/post";
 
 const SignIn = () => {
   const navigate = useNavigate();
@@ -14,31 +15,21 @@ const SignIn = () => {
   const [errors, setErrors] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setErrors([]);
-    const body = { email, password };
-    fetch("http://206.189.91.54/api/v1/auth/sign_in", {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => {
-        if (response.ok) {
-          setHeaders(response.headers);
-        }
-        return response.json();
-      })
-      .then((result) => {
-        setIsLoading(false);
-        if (result.success === false) {
-          setErrors(result.errors);
-        } else {
-          localStorage.setItem("signedIn", result.data.id);
-          navigate("/client");
-        }
-      });
+    const payload = { email, password };
+    const response = await auth("auth/sign_in", payload);
+    if (response.status === 200) {
+      localStorage.setItem("signedIn", response.data.data.id);
+      setHeaders(response.headers);
+      setIsLoading(false);
+      navigate("/client");
+    } else {
+      setIsLoading(false);
+      setErrors(response.errors);
+    }
   };
 
   return (

@@ -6,6 +6,7 @@ import "./SignUp.scss";
 import Password from "../../components/Password/Password";
 import Email from "../../components/Email/Email";
 import { useNavigate } from "react-router-dom";
+import { auth } from "../../api/post";
 
 const SignUp = () => {
   const navigate = useNavigate();
@@ -16,25 +17,19 @@ const SignUp = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccessful, setIsSuccessful] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
     setErrors([]);
-    const body = { email, password, password_confirmation: confirmPassword };
-    fetch("http://206.189.91.54/api/v1/auth/", {
-      method: "POST",
-      body: JSON.stringify(body),
-      headers: { "Content-Type": "application/json" },
-    })
-      .then((response) => response.json())
-      .then((result) => {
-        setIsLoading(false);
-        if (result.status === "error") {
-          setErrors(result.errors.full_messages);
-        } else {
-          setIsSuccessful(true);
-        }
-      });
+    const payload = { email, password, password_confirmation: confirmPassword };
+    const response = await auth("auth", payload);
+    if (response.status === 200) {
+      setIsLoading(false);
+      setIsSuccessful(true);
+    } else {
+      setIsLoading(false);
+      setErrors(response.errors.full_messages);
+    }
   };
 
   return (
