@@ -35,7 +35,7 @@ export const getChannelList = async () => {
     .catch((err) => {
       throw Error(err.message);
     });
-  return await response?.data.data;
+  return (await response?.data.data) ?? [];
 };
 
 export const getChannelDetails = async ({ queryKey: [id] }) => {

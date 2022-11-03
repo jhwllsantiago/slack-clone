@@ -10,6 +10,10 @@ import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getChannelList, getUsers } from "../../api/get";
 
 const Client = () => {
+  const { data, error, status } = useQuery({
+    queryKey: ["users"],
+    queryFn: getUsers,
+  });
   const queryClient = useQueryClient();
   useEffect(() => {
     queryClient.prefetchQuery({
@@ -17,11 +21,6 @@ const Client = () => {
       queryFn: getChannelList,
     }); // eslint-disable-next-line
   }, []);
-
-  const { data, isLoading, error } = useQuery({
-    queryKey: ["users"],
-    queryFn: getUsers,
-  });
   const signedIn = localStorage.getItem("signedIn");
   const initial = localStorage.getItem(`${signedIn}-contacts`)
     ? JSON.parse(localStorage.getItem(`${signedIn}-contacts`))
@@ -34,15 +33,19 @@ const Client = () => {
   }
   return (
     <div className="client">
-      {isLoading && <img src={loadingGif} alt="" className="client-loading" />}
-      {!isLoading && !error && (
+      {status === "loading" && (
+        <img src={loadingGif} alt="" className="loading" />
+      )}
+      {status === "error" && (
+        <div className="error-message">{error.message}</div>
+      )}
+      {status === "success" && (
         <div className="main">
           <Header />
           <Sidebar users={data} contacts={contacts} setContacts={setContacts} />
           <Body users={data} contacts={contacts} setContacts={setContacts} />
         </div>
       )}
-      {error && <div>{error.message}</div>}
     </div>
   );
 };

@@ -4,12 +4,4 @@
   background-color: $dark;
   width: 100vw;
   height: 100vh;
-
-  .client-loading {
-    display: block;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  }
 }

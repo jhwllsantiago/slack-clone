@@ -13,17 +13,19 @@ const ChannelList = () => {
   });
   const queryClient = useQueryClient();
   useEffect(() => {
-    for (const channel of data) {
-      queryClient.prefetchQuery({
-        queryKey: [channel.id.toString(), "channel details"],
-        queryFn: getChannelDetails,
-      });
-      queryClient.prefetchQuery({
-        queryKey: [channel.id.toString(), "Channel"],
-        queryFn: getMessages,
-      });
-    }
-  }, []);
+    if (data?.length > 0) {
+      for (const channel of data) {
+        queryClient.prefetchQuery({
+          queryKey: [channel.id.toString(), "channel details"],
+          queryFn: getChannelDetails,
+        });
+        queryClient.prefetchQuery({
+          queryKey: [channel.id.toString(), "Channel"],
+          queryFn: getMessages,
+        });
+      }
+    } // eslint-disable-next-line
+  }, [data]);
 
   if (status === "loading") {
     return <img src={loadingGif} alt="" className="loading" />;
