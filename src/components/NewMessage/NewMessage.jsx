@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./NewMessage.scss";
 import { AiOutlineClose } from "react-icons/ai";
 import DisplayMessages from "../DisplayMessages/DisplayMessages";
-import postMessage from "../../api/postMessage";
 import saveContacts from "../../util/saveContacts";
 import MessagePane from "../MessagePane/MessagePane";
+import { useSendMessage } from "../../api/post";
 
 const NewMessage = ({ users, contacts, setContacts }) => {
   const signedIn = localStorage.getItem("signedIn");
   const [query, setQuery] = useState("");
   const [receiver, setReceiver] = useState(null);
   const [message, setMessage] = useState("");
-  const [seed, setSeed] = useState(1);
+  const messagesMutation = useSendMessage([receiver?.id, "User"]);
 
   const handleUserClick = (user) => {
     if (user.email) {
@@ -27,24 +27,21 @@ const NewMessage = ({ users, contacts, setContacts }) => {
         receiver_class: "User",
         body: message,
       };
-      const result = await postMessage(body);
-      if (result.success) {
-        setMessage("");
-        saveContacts(receiver.email, receiver.id, receiver.bg);
-
-        const checker = contacts.some(
-          (contact) => contact.email === receiver.email
-        );
-        if (!checker) {
-          setContacts([
-            ...contacts,
-            { name: null, email: receiver.email, id: receiver.id },
-          ]);
-        }
-        setSeed(Math.random());
-      }
+      setMessage("");
+      messagesMutation.mutate(body);
     }
   };
+
+  useEffect(() => {
+    if (messagesMutation.isSuccess && receiver) {
+      const { email, id, bg } = receiver;
+      saveContacts(email, id, bg);
+      const unique = contacts.every((contact) => contact.email !== email);
+      if (unique) {
+        setContacts([...contacts, { name: null, email, id, bg }]);
+      }
+    } // eslint-disable-next-line
+  }, [messagesMutation]);
 
   return (
     <div className="new-message">
@@ -74,9 +71,7 @@ const NewMessage = ({ users, contacts, setContacts }) => {
           )}
         </div>
       </div>
-      {receiver && (
-        <DisplayMessages key={seed} id={receiver.id} type={"User"} />
-      )}
+      {receiver && <DisplayMessages id={receiver.id} type={"User"} />}
       {users && query && (
         <ul className="users-list">
           {users.map((user) => {

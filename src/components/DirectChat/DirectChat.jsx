@@ -1,23 +1,19 @@
 import { useParams } from "react-router-dom";
 import "./DirectChat.scss";
 import DisplayMessages from "../DisplayMessages/DisplayMessages";
-import postMessage from "../../api/postMessage";
 import { useState } from "react";
-import { AiOutlineReload } from "react-icons/ai";
 import saveContacts from "../../util/saveContacts";
 import MessagePane from "../MessagePane/MessagePane";
 import Avatar from "../Avatar/Avatar";
+import { useSendMessage } from "../../api/post";
+import { useEffect } from "react";
 
 const DirectChat = ({ users, contacts, setContacts }) => {
   const { id } = useParams();
   const contact = contacts.find((contact) => contact.id === parseInt(id));
+  const user = users.find((user) => user.id === parseInt(id));
   const [message, setMessage] = useState("");
-  const [seed, setSeed] = useState(1);
-  let user = undefined;
-
-  if (!contact) {
-    user = users.find((user) => user.id.toString() === id);
-  }
+  const messagesMutation = useSendMessage([id, "User"]);
 
   const handleSendClick = async () => {
     if (message) {
@@ -26,26 +22,21 @@ const DirectChat = ({ users, contacts, setContacts }) => {
         receiver_class: "User",
         body: message,
       };
-      const result = await postMessage(body);
-      if (result.success) {
-        setMessage("");
-        setSeed(Math.random());
-
-        if (user) {
-          saveContacts(user.email, user.id, user.bg);
-          const checker = contacts.some(
-            (contact) => contact.email === user.email
-          );
-          if (!checker) {
-            setContacts([
-              ...contacts,
-              { name: null, email: user.email, id: user.id },
-            ]);
-          }
-        }
-      }
+      setMessage("");
+      messagesMutation.mutate(body);
     }
   };
+
+  useEffect(() => {
+    if (messagesMutation.isSuccess && user) {
+      const { email, id, bg } = user;
+      saveContacts(email, id, bg);
+      const unique = contacts.every((contact) => contact.email !== email);
+      if (unique) {
+        setContacts([...contacts, { name: null, email, id, bg }]);
+      }
+    } // eslint-disable-next-line
+  }, [messagesMutation]);
 
   return (
     <div className="direct-chat">
@@ -58,15 +49,9 @@ const DirectChat = ({ users, contacts, setContacts }) => {
             </p>
           </div>
           <hr />
-          <AiOutlineReload
-            className="reload-icon"
-            onClick={() => setSeed(Math.random())}
-          />
         </div>
       )}
-      {(contact || user) && (
-        <DisplayMessages key={seed} id={id} type={"User"} />
-      )}
+      {(contact || user) && <DisplayMessages id={id} type={"User"} />}
 
       <MessagePane
         message={message}
