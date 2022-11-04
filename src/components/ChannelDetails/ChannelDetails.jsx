@@ -12,7 +12,7 @@ const ChannelDetails = ({ details, members, users }) => {
   const signedIn = parseInt(localStorage.getItem("signedIn"));
   const navigate = useNavigate();
   const [tab, setTab] = useState(2);
-  const [query, setQuery] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [newMember, setNewMember] = useState(null);
   const detailsMutation = useAddMember([
@@ -22,20 +22,20 @@ const ChannelDetails = ({ details, members, users }) => {
   const owner = members.find((member) => member.id === details.owner_id);
 
   useEffect(() => {
-    if (tab === 2 && query !== "" && members) {
+    if (tab === 2 && keyword !== "" && members) {
       const filtered = members.filter((member) =>
-        member.email.startsWith(query)
+        member.email.startsWith(keyword)
       );
       setFiltered(filtered);
-    } else if (tab === 3 && query !== "" && users) {
-      const filtered = users.filter((user) => user.email.startsWith(query));
+    } else if (tab === 3 && keyword !== "" && users) {
+      const filtered = users.filter((user) => user.email.startsWith(keyword));
       setFiltered(filtered);
     }
-  }, [query, tab, users, members]);
+  }, [keyword, tab, users, members]);
 
   const handleUserClick = (user) => {
     setNewMember(user);
-    setQuery("");
+    setKeyword("");
   };
 
   const handleSubmit = async () => {
@@ -45,7 +45,7 @@ const ChannelDetails = ({ details, members, users }) => {
         member_id: newMember.id,
       };
       detailsMutation.mutate(body);
-      setQuery("");
+      setKeyword("");
       setNewMember(null);
       setTab(2);
     }
@@ -60,7 +60,7 @@ const ChannelDetails = ({ details, members, users }) => {
         <span
           className={tab === 1 ? "about-tab active" : "about-tab"}
           onClick={() => {
-            setQuery("");
+            setKeyword("");
             setTab(1);
           }}
         >
@@ -69,7 +69,7 @@ const ChannelDetails = ({ details, members, users }) => {
         <span
           className={tab === 2 ? "members-tab active" : "members-tab"}
           onClick={() => {
-            setQuery("");
+            setKeyword("");
             setTab(2);
           }}
         >
@@ -79,7 +79,7 @@ const ChannelDetails = ({ details, members, users }) => {
           <span
             className={tab === 3 ? "add-tab active" : "add-tab"}
             onClick={() => {
-              setQuery("");
+              setKeyword("");
               setTab(3);
             }}
           >
@@ -121,14 +121,14 @@ const ChannelDetails = ({ details, members, users }) => {
       )}
 
       {(tab === 2 || tab === 3) && (
-        <div className="query">
+        <div className="keyword">
           <input
-            className="query-input"
+            className="keyword-input"
             type="text"
             spellCheck={false}
             placeholder={tab === 3 ? "Add member" : "Find members"}
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            value={keyword}
+            onChange={(e) => setKeyword(e.target.value)}
           />
           <BiSearch className="search-icon" />
         </div>
@@ -136,7 +136,7 @@ const ChannelDetails = ({ details, members, users }) => {
 
       {tab === 2 && (
         <ul className="members-list">
-          {(query ? filtered : members).map((member, idx) => {
+          {(keyword ? filtered : members).map((member, idx) => {
             const checker = member.id === signedIn;
             return (
               <li
@@ -166,9 +166,9 @@ const ChannelDetails = ({ details, members, users }) => {
           />
         </div>
       )}
-      {tab === 3 && query && (
+      {tab === 3 && keyword && (
         <ul className="users-list">
-          {query &&
+          {keyword &&
             filtered
               .filter((user) => {
                 return !members.some((member) => {

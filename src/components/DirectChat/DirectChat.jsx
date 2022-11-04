@@ -43,10 +43,8 @@ const DirectChat = ({ users, contacts, setContacts }) => {
       {(contact || user) && (
         <div className="main">
           <div className="name-container">
-            <Avatar transparent={true} color={(contact || user)?.bg} />
-            <p className="name">
-              {contact ? contact.name || contact.email : user.email}
-            </p>
+            <Avatar transparent={true} color={contact?.bg ?? user?.bg} />
+            <p className="name">{contact?.name || user?.email}</p>
           </div>
           <hr />
         </div>
@@ -56,9 +54,7 @@ const DirectChat = ({ users, contacts, setContacts }) => {
       <MessagePane
         message={message}
         setMessage={setMessage}
-        placeholder={`Message ${
-          contact ? contact.name || contact.email : user.email
-        }`}
+        placeholder={`Message ${contact?.name || user?.email}`}
         onClick={handleSendClick}
       />
     </div>

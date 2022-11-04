@@ -8,14 +8,14 @@ import { useSendMessage } from "../../api/post";
 
 const NewMessage = ({ users, contacts, setContacts }) => {
   const signedIn = localStorage.getItem("signedIn");
-  const [query, setQuery] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [receiver, setReceiver] = useState(null);
   const [message, setMessage] = useState("");
   const messagesMutation = useSendMessage([receiver?.id, "User"]);
 
   const handleUserClick = (user) => {
     if (user.email) {
-      setQuery("");
+      setKeyword("");
       setReceiver(user);
     }
   };
@@ -56,8 +56,8 @@ const NewMessage = ({ users, contacts, setContacts }) => {
               type="text"
               placeholder="name@email.com"
               spellCheck={false}
-              value={query}
-              onChange={(e) => setQuery(e.target.value.replace(/ /g, ""))}
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value.replace(/ /g, ""))}
             />
           )}
           {receiver && (
@@ -72,11 +72,11 @@ const NewMessage = ({ users, contacts, setContacts }) => {
         </div>
       </div>
       {receiver && <DisplayMessages id={receiver.id} type={"User"} />}
-      {users && query && (
+      {users && keyword && (
         <ul className="users-list">
           {users.map((user) => {
             if (user.id.toString() === signedIn) return null;
-            if (!user.email.startsWith(query)) return null;
+            if (!user.email.startsWith(keyword)) return null;
             return (
               <li key={user.id} onClick={() => handleUserClick(user)}>
                 {user.email}

@@ -12,12 +12,12 @@ const Channels = ({ contacts, users }) => {
   const [showModal, setShowModal] = useState(false);
   const [channel, setChannel] = useState("");
   const [members, setMembers] = useState([]);
-  const [query, setQuery] = useState("");
+  const [keyword, setKeyword] = useState("");
   const [isTaken, setIsTaken] = useState(false);
   const [seed, setSeed] = useState(1);
 
   const handleUserClick = (user) => {
-    setQuery("");
+    setKeyword("");
     setMembers([...members, user]);
   };
 
@@ -37,7 +37,7 @@ const Channels = ({ contacts, users }) => {
     if (result.success) {
       setSeed(Math.random());
       setShowModal(false);
-      setQuery("");
+      setKeyword("");
       setMembers([]);
       setChannel("");
     } else {
@@ -62,7 +62,7 @@ const Channels = ({ contacts, users }) => {
           className="backdrop"
           onClick={() => {
             setShowModal(false);
-            setQuery("");
+            setKeyword("");
             setMembers([]);
             setChannel("");
             setIsTaken(false);
@@ -107,21 +107,21 @@ const Channels = ({ contacts, users }) => {
                   type="text"
                   placeholder="name or email"
                   spellCheck={false}
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
+                  value={keyword}
+                  onChange={(e) => setKeyword(e.target.value)}
                 />
                 <BiSearch className="search-icon" />
               </div>
 
-              {users && query && (
+              {users && keyword && (
                 <ul className="users-list">
                   {contacts.concat(users).map((user, idx) => {
                     if (
                       user.id === parseInt(signedIn) ||
                       members.some((member) => member.id === user.id) ||
                       !(
-                        user.email.startsWith(query) ||
-                        (user.name && user.name.startsWith(query))
+                        user.email.startsWith(keyword) ||
+                        (user.name && user.name.startsWith(keyword))
                       )
                     ) {
                       return null;
