@@ -1,4 +1,6 @@
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 import getHeaders from "../util/getHeaders";
 
 const instance = () => {
@@ -27,4 +29,27 @@ export const auth = async (endpoint, body) => {
       }
     });
   return response;
+};
+
+export const useSendMessage = (queryKey) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async (body) => {
+      return await instance().post(`messages`, body);
+    },
+    onError: (error) => {
+      if (error?.code === "ERR_BAD_REQUEST") {
+        navigate("/signin");
+      } else {
+        alert("An unexpected error occured.");
+      }
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: queryKey,
+        exact: true,
+      });
+    },
+  });
 };

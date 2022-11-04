@@ -2,15 +2,14 @@ import { useParams } from "react-router-dom";
 import "./ChannelChat.scss";
 import DisplayMessages from "../DisplayMessages/DisplayMessages";
 import { useEffect, useState } from "react";
-import { AiOutlineReload } from "react-icons/ai";
-import postMessage from "../../api/postMessage";
 import ChannelDetails from "../ChannelDetails/ChannelDetails";
 import { FaLock } from "react-icons/fa";
 import { BiChevronDown } from "react-icons/bi";
 import MessagePane from "../MessagePane/MessagePane";
-import { useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getChannelDetails } from "../../api/get";
 import loadingGif from "../../assets/images/circle.gif";
+import { useSendMessage } from "../../api/post";
 
 const ChannelChat = ({ users }) => {
   const { id } = useParams();
@@ -22,7 +21,7 @@ const ChannelChat = ({ users }) => {
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
-  const queryClient = useQueryClient();
+  const messagesMutation = useSendMessage([id, "Channel"]);
 
   useEffect(() => {
     if (data) setDetails(data);
@@ -38,17 +37,15 @@ const ChannelChat = ({ users }) => {
     }
   }, [users, data, details]);
 
-  const handleSendClick = async () => {
+  const handleSendClick = () => {
     if (message) {
-      const body = {
+      const payload = {
         receiver_id: parseInt(id),
         receiver_class: "Channel",
         body: message,
       };
-      const result = await postMessage(body);
-      if (result.success) {
-        setMessage("");
-      }
+      setMessage("");
+      messagesMutation.mutate(payload);
     }
   };
 
@@ -75,6 +72,7 @@ const ChannelChat = ({ users }) => {
       )}
 
       <div className="main">
+        {/* {messagesMutation.isLoading && <h1>Sending...</h1>} */}
         <div className="name">
           <p className="p" onClick={() => setShowModal(true)}>
             <FaLock />
@@ -82,15 +80,6 @@ const ChannelChat = ({ users }) => {
             <BiChevronDown />
           </p>
         </div>
-        <AiOutlineReload
-          className="reload-icon"
-          onClick={() => {
-            queryClient.refetchQueries({
-              queryKey: [id, "Channel"],
-              exact: true,
-            });
-          }}
-        />
 
         <div className="manage-channel" onClick={() => setShowModal(true)}>
           {members.slice(0, 3).map((member, idx) => {
