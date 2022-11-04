@@ -108,18 +108,6 @@
         border-radius: 5px;
       }
 
-      div.letter-img {
-        background-color: $darker;
-        font-size: 30px;
-        border-radius: 5px;
-        text-align: center;
-        line-height: 40px;
-        width: 40px;
-        height: 40px;
-        font-family: "Alice", serif;
-        color: $text-gray;
-      }
-
       .member-details {
         overflow-x: hidden;
         text-overflow: ellipsis;
@@ -188,16 +176,10 @@
     margin-bottom: 5px;
     border-radius: 5px;
 
-    div.letter-img {
-      background-color: $darker;
-      font-size: 30px;
+    .avatar {
       border-radius: 5px;
-      text-align: center;
-      line-height: 40px;
       width: 40px;
       height: 40px;
-      font-family: "Alice", serif;
-      color: $text-gray;
     }
 
     .member-details {

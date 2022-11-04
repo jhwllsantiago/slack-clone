@@ -8,13 +8,20 @@ import loadingGif from "../../assets/images/circle.gif";
 import getHeaders from "../../util/getHeaders";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getChannelList, getUsers } from "../../api/get";
+import randomColor from "../../util/randomColor";
 
 const Client = () => {
+  const queryClient = useQueryClient();
   const { data, error, status } = useQuery({
     queryKey: ["users"],
     queryFn: getUsers,
+    onSuccess: (users) => {
+      const mapped = users?.map((user) => {
+        return { ...user, bg: randomColor(200) };
+      });
+      queryClient.setQueryData(["users"], mapped);
+    },
   });
-  const queryClient = useQueryClient();
   useEffect(() => {
     queryClient.prefetchQuery({
       queryKey: ["channels"],

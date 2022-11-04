@@ -13,16 +13,9 @@
       align-items: center;
       gap: 10px;
 
-      div.letter-img {
-        background-color: $darkest;
-        font-size: 18px;
-        border-radius: 5px;
-        text-align: center;
-        line-height: 25px;
+      .avatar {
         width: 25px;
         height: 25px;
-        font-family: "Alice", serif;
-        color: $text-gray;
       }
     }
     .reload-icon {

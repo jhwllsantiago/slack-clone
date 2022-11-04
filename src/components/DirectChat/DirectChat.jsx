@@ -6,6 +6,7 @@ import { useState } from "react";
 import { AiOutlineReload } from "react-icons/ai";
 import saveContacts from "../../util/saveContacts";
 import MessagePane from "../MessagePane/MessagePane";
+import Avatar from "../Avatar/Avatar";
 
 const DirectChat = ({ users, contacts, setContacts }) => {
   const { id } = useParams();
@@ -31,7 +32,7 @@ const DirectChat = ({ users, contacts, setContacts }) => {
         setSeed(Math.random());
 
         if (user) {
-          saveContacts(user.email, user.id);
+          saveContacts(user.email, user.id, user.bg);
           const checker = contacts.some(
             (contact) => contact.email === user.email
           );
@@ -51,11 +52,7 @@ const DirectChat = ({ users, contacts, setContacts }) => {
       {(contact || user) && (
         <div className="main">
           <div className="name-container">
-            <div className="letter-img">
-              {(contact ? contact.name || contact.email : user.email)
-                .substring(0, 1)
-                .toUpperCase()}
-            </div>
+            <Avatar transparent={true} color={(contact || user)?.bg} />
             <p className="name">
               {contact ? contact.name || contact.email : user.email}
             </p>

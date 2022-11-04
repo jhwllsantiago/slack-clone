@@ -90,16 +90,9 @@
         display: block;
       }
 
-      div.letter-img {
-        background-color: $darkest;
-        font-size: 15px;
-        border-radius: 5px;
-        text-align: center;
-        line-height: 20px;
-        min-width: 20px;
+      .avatar {
+        width: 20px;
         height: 20px;
-        font-family: "Alice", serif;
-        color: white;
       }
     }
   }

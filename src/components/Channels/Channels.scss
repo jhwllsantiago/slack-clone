@@ -147,7 +147,7 @@
         overflow-x: hidden;
         overflow-y: auto;
         position: absolute;
-        height: 240px;
+        height: 310px;
 
         .member {
           display: grid;
@@ -157,18 +157,6 @@
           align-items: center;
           margin-bottom: 5px;
           padding-right: 10px;
-
-          div.letter-img {
-            background-color: $darker;
-            font-size: 30px;
-            border-radius: 5px;
-            text-align: center;
-            line-height: 40px;
-            width: 40px;
-            height: 40px;
-            font-family: "Alice", serif;
-            color: $text-gray;
-          }
 
           span {
             overflow-x: hidden;

@@ -1,5 +1,5 @@
 import "./Header.scss";
-import avatar from "../../assets/images/avatar.png";
+import avatar from "../../assets/images/avatar-default.png";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 
@@ -24,10 +24,7 @@ const Header = () => {
       </div>
       {showModal && (
         <>
-          <div
-            className="backdrop"
-            onClick={() => setShowModal(false)}
-          ></div>
+          <div className="backdrop" onClick={() => setShowModal(false)}></div>
           <div className="modal">
             <img src={avatar} alt="" />
             <hr />

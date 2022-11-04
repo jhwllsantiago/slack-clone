@@ -5,6 +5,7 @@ import { MdErrorOutline } from "react-icons/md";
 import ChannelList from "../ChannelList/ChannelList";
 import postCreateChannel from "../../api/postCreateChannel";
 import { BiSearch } from "react-icons/bi";
+import Avatar from "../Avatar/Avatar";
 
 const Channels = ({ contacts, users }) => {
   const signedIn = localStorage.getItem("signedIn");
@@ -140,11 +141,7 @@ const Channels = ({ contacts, users }) => {
                 members.map((member, idx) => {
                   return (
                     <li key={idx} className="member">
-                      <div className="letter-img">
-                        {(member.name || member.email)
-                          .substring(0, 1)
-                          .toUpperCase()}
-                      </div>
+                      <Avatar transparent={true} color={member.bg} />
                       <span>{member.name || member.email}</span>
                       <AiOutlineClose
                         className="close"

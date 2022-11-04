@@ -2,6 +2,7 @@ import { MdDriveFileRenameOutline, MdSave } from "react-icons/md";
 import { useState } from "react";
 import "./DirectMessages.scss";
 import { NavLink } from "react-router-dom";
+import Avatar from "../Avatar/Avatar";
 
 const DirectMessages = ({ contacts, setContacts }) => {
   const signedIn = localStorage.getItem("signedIn");
@@ -30,7 +31,7 @@ const DirectMessages = ({ contacts, setContacts }) => {
       <p>Direct messages</p>
       <ul className="dm-list">
         {contacts &&
-          contacts.map(({ name, email, id }, idx) => {
+          contacts.map(({ name, email, id, bg }, idx) => {
             return (
               <NavLink
                 key={idx}
@@ -41,9 +42,7 @@ const DirectMessages = ({ contacts, setContacts }) => {
                   color: isActive && "white",
                 })}
               >
-                <div className="letter-img">
-                  {(name ? name : email).substring(0, 1).toUpperCase()}
-                </div>
+                <Avatar transparent={true} color={bg} />
                 {newInfoIdx === idx && (
                   <>
                     <input

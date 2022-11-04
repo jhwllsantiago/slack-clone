@@ -30,7 +30,7 @@ const NewMessage = ({ users, contacts, setContacts }) => {
       const result = await postMessage(body);
       if (result.success) {
         setMessage("");
-        saveContacts(receiver.email, receiver.id);
+        saveContacts(receiver.email, receiver.id, receiver.bg);
 
         const checker = contacts.some(
           (contact) => contact.email === receiver.email

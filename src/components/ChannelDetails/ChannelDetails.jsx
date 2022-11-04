@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { FaLock } from "react-icons/fa";
 import getDate from "../../util/getDate";
-import avatar from "../../assets/images/avatar.png";
 import { useAddMember } from "../../api/post";
+import Avatar from "../Avatar/Avatar";
 
 const ChannelDetails = ({ details, members, users }) => {
   const signedIn = parseInt(localStorage.getItem("signedIn"));
@@ -146,14 +146,7 @@ const ChannelDetails = ({ details, members, users }) => {
                   if (!checker) navigate(`/client/message/u/${member.id}`);
                 }}
               >
-                {checker && <img src={avatar} alt="" className="avatar" />}
-                {!checker && (
-                  <div className="letter-img">
-                    {(member.name || member.email)
-                      .substring(0, 1)
-                      .toUpperCase()}
-                  </div>
-                )}
+                <Avatar transparent={!checker} color={member.bg} />
                 <span className="member-details">
                   {checker ? "You" : member.name || member.email}
                 </span>
@@ -165,9 +158,7 @@ const ChannelDetails = ({ details, members, users }) => {
 
       {tab === 3 && newMember && (
         <div className="new-member">
-          <div className="letter-img">
-            {(newMember.name || newMember.email).substring(0, 1).toUpperCase()}
-          </div>
+          <Avatar transparent={true} color={newMember.bg} />
           <p className="details">{newMember.email}</p>
           <AiOutlineClose
             className="delete-new"
