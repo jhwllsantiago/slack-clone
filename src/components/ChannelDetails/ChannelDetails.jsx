@@ -4,24 +4,21 @@ import { AiOutlineClose } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { BiSearch } from "react-icons/bi";
 import { FaLock } from "react-icons/fa";
-import postAddMember from "../../api/postAddMember";
 import getDate from "../../util/getDate";
 import avatar from "../../assets/images/avatar.png";
+import { useAddMember } from "../../api/post";
 
-const ChannelDetails = ({
-  details,
-  setDetails,
-  members,
-  users,
-  setShowModal,
-}) => {
+const ChannelDetails = ({ details, members, users }) => {
   const signedIn = parseInt(localStorage.getItem("signedIn"));
   const navigate = useNavigate();
   const [tab, setTab] = useState(2);
   const [query, setQuery] = useState("");
   const [filtered, setFiltered] = useState([]);
   const [newMember, setNewMember] = useState(null);
-
+  const detailsMutation = useAddMember([
+    details.id.toString(),
+    "channel details",
+  ]);
   const owner = members.find((member) => member.id === details.owner_id);
 
   useEffect(() => {
@@ -47,15 +44,10 @@ const ChannelDetails = ({
         id: details.id,
         member_id: newMember.id,
       };
-      const result = await postAddMember(body);
-      if (result.success) {
-        setQuery("");
-        setNewMember(null);
-        setShowModal(false);
-        setDetails(result.data);
-      } else {
-        console.log("new member POST error");
-      }
+      detailsMutation.mutate(body);
+      setQuery("");
+      setNewMember(null);
+      setTab(2);
     }
   };
 

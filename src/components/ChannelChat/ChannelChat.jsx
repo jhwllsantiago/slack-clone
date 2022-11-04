@@ -17,25 +17,20 @@ const ChannelChat = ({ users }) => {
     queryKey: [id, "channel details"],
     queryFn: getChannelDetails,
   });
-  const [details, setDetails] = useState(null);
   const [members, setMembers] = useState([]);
   const [message, setMessage] = useState("");
   const [showModal, setShowModal] = useState(false);
   const messagesMutation = useSendMessage([id, "Channel"]);
 
   useEffect(() => {
-    if (data) setDetails(data);
-  }, [data]);
-
-  useEffect(() => {
-    if (details && users && data) {
-      const ids = details.channel_members.map((member) => member.user_id);
+    if (users && data) {
+      const ids = data.channel_members.map((member) => member.user_id);
       const list = users.filter((user) => {
         return ids.some((id) => user.id === id);
       });
       setMembers(list);
     }
-  }, [users, data, details]);
+  }, [users, data]);
 
   const handleSendClick = () => {
     if (message) {
@@ -63,8 +58,7 @@ const ChannelChat = ({ users }) => {
       )}
       {showModal && (
         <ChannelDetails
-          details={details}
-          setDetails={setDetails}
+          details={data}
           members={members}
           users={users}
           setShowModal={setShowModal}
@@ -76,7 +70,7 @@ const ChannelChat = ({ users }) => {
         <div className="name">
           <p className="p" onClick={() => setShowModal(true)}>
             <FaLock />
-            <span>{details && details.name}</span>
+            <span>{data?.name}</span>
             <BiChevronDown />
           </p>
         </div>
@@ -98,7 +92,7 @@ const ChannelChat = ({ users }) => {
       <MessagePane
         message={message}
         setMessage={setMessage}
-        placeholder={`Message ${details?.name}`}
+        placeholder={`Message ${data?.name}`}
         onClick={handleSendClick}
       />
     </div>
