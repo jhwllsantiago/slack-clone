@@ -30,13 +30,13 @@ const DirectChat = ({ users, contacts, setContacts }) => {
   useEffect(() => {
     if (messagesMutation.isSuccess && user) {
       const { email, id, bg } = user;
-      saveContacts(email, id, bg);
       const unique = contacts.every((contact) => contact.email !== email);
       if (unique) {
+        saveContacts(user);
         setContacts([...contacts, { name: null, email, id, bg }]);
       }
     } // eslint-disable-next-line
-  }, [messagesMutation]);
+  }, [messagesMutation.isSuccess]);
 
   return (
     <div className="direct-chat">
