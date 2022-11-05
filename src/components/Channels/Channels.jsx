@@ -3,18 +3,18 @@ import { useState } from "react";
 import { AiOutlinePlus, AiOutlineClose } from "react-icons/ai";
 import { MdErrorOutline } from "react-icons/md";
 import ChannelList from "../ChannelList/ChannelList";
-import postCreateChannel from "../../api/postCreateChannel";
 import { BiSearch } from "react-icons/bi";
 import Avatar from "../Avatar/Avatar";
+import { useAddChannel } from "../../api/post";
 
 const Channels = ({ contacts, users }) => {
   const signedIn = localStorage.getItem("signedIn");
   const [showModal, setShowModal] = useState(false);
-  const [channel, setChannel] = useState("");
+  const [newChannel, setNewChannel] = useState("");
   const [members, setMembers] = useState([]);
   const [keyword, setKeyword] = useState("");
   const [isTaken, setIsTaken] = useState(false);
-  const [seed, setSeed] = useState(1);
+  const channelsMutation = useAddChannel(["channels"]);
 
   const handleUserClick = (user) => {
     setKeyword("");
@@ -29,20 +29,14 @@ const Channels = ({ contacts, users }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     const ids = members.length > 0 ? members.map((member) => member.id) : [];
-    const newChannel = {
-      name: channel,
+    const payload = {
+      name: newChannel,
       user_ids: ids,
     };
-    const result = await postCreateChannel(newChannel);
-    if (result.success) {
-      setSeed(Math.random());
-      setShowModal(false);
-      setKeyword("");
-      setMembers([]);
-      setChannel("");
-    } else {
-      setIsTaken(true);
-    }
+    const onSuccessFn = (data) => {
+      if (data.data?.errors) setIsTaken(true);
+    };
+    channelsMutation.mutate({ payload, onSuccessFn });
   };
 
   return (
@@ -55,7 +49,7 @@ const Channels = ({ contacts, users }) => {
             onClick={() => setShowModal(true)}
           />
         </div>
-        <ChannelList key={seed} />
+        <ChannelList />
       </div>
       {showModal && (
         <div
@@ -64,7 +58,7 @@ const Channels = ({ contacts, users }) => {
             setShowModal(false);
             setKeyword("");
             setMembers([]);
-            setChannel("");
+            setNewChannel("");
             setIsTaken(false);
           }}
         ></div>
@@ -84,10 +78,10 @@ const Channels = ({ contacts, users }) => {
                 maxLength={15}
                 minLength={3}
                 spellCheck={false}
-                value={channel}
+                value={newChannel}
                 onChange={(e) => {
                   setIsTaken(false);
-                  setChannel(e.target.value.replace(/[^a-zA-Z0-9]/g, ""));
+                  setNewChannel(e.target.value.trimStart());
                 }}
               />
               {isTaken && (

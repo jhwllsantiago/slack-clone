@@ -54,6 +54,30 @@ export const useSendMessage = (queryKey) => {
   });
 };
 
+export const useAddChannel = (queryKey) => {
+  const queryClient = useQueryClient();
+  const navigate = useNavigate();
+  return useMutation({
+    mutationFn: async ({ payload }) => {
+      return await instance().post(`channels`, payload);
+    },
+    onError: (error) => {
+      if (error?.code === "ERR_BAD_REQUEST") {
+        navigate("/signin");
+      } else {
+        alert("An unexpected error occured.");
+      }
+    },
+    onSuccess: (data, { onSuccessFn }) => {
+      onSuccessFn?.(data);
+      queryClient.invalidateQueries({
+        queryKey: queryKey,
+        exact: true,
+      });
+    },
+  });
+};
+
 export const useAddMember = (queryKey) => {
   const queryClient = useQueryClient();
   const navigate = useNavigate();
