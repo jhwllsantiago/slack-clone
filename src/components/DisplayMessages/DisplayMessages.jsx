@@ -6,10 +6,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getMessages } from "../../api/get";
 import FullMessage from "./FullMessage";
 import PartialMessage from "./PartialMessage";
+import NotFound from "../../pages/NotFound/NotFound";
 
 const DisplayMessages = ({ id, type }) => {
   const bottomRef = useRef();
-  const { data, error, status } = useQuery({
+  const { data, status } = useQuery({
     queryKey: [id, type],
     queryFn: getMessages,
   });
@@ -22,7 +23,7 @@ const DisplayMessages = ({ id, type }) => {
     return <img src={loadingGif} alt="" className="loading" />;
   }
   if (status === "error") {
-    return <div className="error-message">{error.message}</div>;
+    return <NotFound />;
   }
   return (
     <div className="display-messages">

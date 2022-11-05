@@ -5,9 +5,10 @@ import { FaLock } from "react-icons/fa";
 import { getChannelDetails, getChannelList, getMessages } from "../../api/get";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
+import NotFound from "../../pages/NotFound/NotFound";
 
 const ChannelList = () => {
-  const { data, error, status } = useQuery({
+  const { data, status } = useQuery({
     queryKey: ["channels"],
     queryFn: getChannelList,
   });
@@ -31,7 +32,7 @@ const ChannelList = () => {
     return <img src={loadingGif} alt="" className="loading" />;
   }
   if (status === "error") {
-    return <div className="error-message">{error.message}</div>;
+    return <NotFound />;
   }
   return (
     <div className="channel-list">

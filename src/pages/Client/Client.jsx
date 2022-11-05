@@ -9,10 +9,11 @@ import getHeaders from "../../util/getHeaders";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getChannelList, getUsers } from "../../api/get";
 import randomColor from "../../util/randomColor";
+import NotFound from "../NotFound/NotFound";
 
 const Client = () => {
   const queryClient = useQueryClient();
-  const { data, error, status } = useQuery({
+  const { data, status } = useQuery({
     queryKey: ["users"],
     queryFn: getUsers,
     onSuccess: (users) => {
@@ -43,9 +44,7 @@ const Client = () => {
       {status === "loading" && (
         <img src={loadingGif} alt="" className="loading" />
       )}
-      {status === "error" && (
-        <div className="error-message">{error.message}</div>
-      )}
+      {status === "error" && <NotFound />}
       {status === "success" && (
         <div className="main">
           <Header />

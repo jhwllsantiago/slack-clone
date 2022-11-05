@@ -1,4 +1,5 @@
 import { Route, Routes } from "react-router-dom";
+import NotFound from "../../pages/NotFound/NotFound";
 import ChannelChat from "../ChannelChat/ChannelChat";
 import DirectChat from "../DirectChat/DirectChat";
 import NewMessage from "../NewMessage/NewMessage";
@@ -29,6 +30,7 @@ const Body = ({ users, contacts, setContacts }) => {
           }
         />
         <Route path="message/c/:id" element={<ChannelChat users={users} />} />
+        <Route path="*" element={<NotFound />} />
       </Routes>
     </div>
   );

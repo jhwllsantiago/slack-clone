@@ -10,10 +10,11 @@ import { useQuery } from "@tanstack/react-query";
 import { getChannelDetails } from "../../api/get";
 import loadingGif from "../../assets/images/circle.gif";
 import { useSendMessage } from "../../api/post";
+import NotFound from "../../pages/NotFound/NotFound";
 
 const ChannelChat = ({ users }) => {
   const { id } = useParams();
-  const { data, error, status } = useQuery({
+  const { data, status } = useQuery({
     queryKey: [id, "channel details"],
     queryFn: getChannelDetails,
   });
@@ -50,7 +51,7 @@ const ChannelChat = ({ users }) => {
     return <img src={loadingGif} alt="" className="loading" />;
   }
   if (status === "error") {
-    return <div className="error-message">{error.message}</div>;
+    return <NotFound />;
   }
   return (
     <div className="channel-chat">
@@ -68,7 +69,6 @@ const ChannelChat = ({ users }) => {
       )}
 
       <div className="main">
-        {/* {messagesMutation.isLoading && <h1>Sending...</h1>} */}
         <div className="name">
           <p className="p" onClick={() => setShowModal(true)}>
             <FaLock />
