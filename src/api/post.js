@@ -56,26 +56,7 @@ const usePOST = (endpoint, queryKey) => {
 };
 
 export const useSendMessage = (queryKey) => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  return useMutation({
-    mutationFn: async (body) => {
-      return await instance().post(`messages`, body);
-    },
-    onError: (error) => {
-      if (error?.code === "ERR_BAD_REQUEST") {
-        navigate("/signin");
-      } else {
-        alert("An unexpected error occured.");
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: queryKey,
-        exact: true,
-      });
-    },
-  });
+  return usePOST("messages", queryKey);
 };
 
 export const useAddChannel = (queryKey) => {
@@ -83,24 +64,5 @@ export const useAddChannel = (queryKey) => {
 };
 
 export const useAddMember = (queryKey) => {
-  const queryClient = useQueryClient();
-  const navigate = useNavigate();
-  return useMutation({
-    mutationFn: async (body) => {
-      return await instance().post(`channel/add_member`, body);
-    },
-    onError: (error) => {
-      if (error?.code === "ERR_BAD_REQUEST") {
-        navigate("/signin");
-      } else {
-        alert("An unexpected error occured.");
-      }
-    },
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: queryKey,
-        exact: true,
-      });
-    },
-  });
+  return usePOST("channel/add_member", queryKey);
 };

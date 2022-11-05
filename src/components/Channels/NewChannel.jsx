@@ -4,8 +4,10 @@ import { AiOutlineClose } from "react-icons/ai";
 import { MdErrorOutline } from "react-icons/md";
 import { useState } from "react";
 import { useAddChannel } from "../../api/post";
+import { useNavigate } from "react-router-dom";
 
 const NewChannel = ({ users, contacts, setShowModal }) => {
+  const navigate = useNavigate();
   const signedIn = localStorage.getItem("signedIn");
   const [newChannel, setNewChannel] = useState("");
   const [members, setMembers] = useState([]);
@@ -33,10 +35,11 @@ const NewChannel = ({ users, contacts, setShowModal }) => {
       user_ids: ids,
     };
     const onSuccessFn = (data) => {
-      if (data.data?.errors) {
+      if (data.data.errors) {
         setIsTaken(true);
       } else {
         setShowModal(false);
+        navigate(`/client/message/c/${data.data.data.id}`);
       }
     };
     channelsMutation.mutate({ payload, onSuccessFn });

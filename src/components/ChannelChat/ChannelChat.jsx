@@ -39,8 +39,10 @@ const ChannelChat = ({ users }) => {
         receiver_class: "Channel",
         body: message,
       };
-      setMessage("");
-      messagesMutation.mutate(payload);
+      const onSuccessFn = () => {
+        setMessage("");
+      };
+      messagesMutation.mutate({ payload, onSuccessFn });
     }
   };
 

@@ -6,7 +6,6 @@ import saveContacts from "../../util/saveContacts";
 import MessagePane from "../MessagePane/MessagePane";
 import Avatar from "../Avatar/Avatar";
 import { useSendMessage } from "../../api/post";
-import { useEffect } from "react";
 
 const DirectChat = ({ users, contacts, setContacts }) => {
   const { id } = useParams();
@@ -15,28 +14,25 @@ const DirectChat = ({ users, contacts, setContacts }) => {
   const [message, setMessage] = useState("");
   const messagesMutation = useSendMessage([id, "User"]);
 
-  const handleSendClick = async () => {
+  const handleSendClick = () => {
     if (message) {
-      const body = {
+      const payload = {
         receiver_id: id,
         receiver_class: "User",
         body: message,
       };
-      setMessage("");
-      messagesMutation.mutate(body);
+      const onSuccessFn = () => {
+        setMessage("");
+        const { email, id, bg } = user;
+        const unique = contacts.every((contact) => contact.email !== email);
+        if (unique) {
+          saveContacts(user);
+          setContacts([...contacts, { name: null, email, id, bg }]);
+        }
+      };
+      messagesMutation.mutate({ payload, onSuccessFn });
     }
   };
-
-  useEffect(() => {
-    if (messagesMutation.isSuccess && user) {
-      const { email, id, bg } = user;
-      const unique = contacts.every((contact) => contact.email !== email);
-      if (unique) {
-        saveContacts(user);
-        setContacts([...contacts, { name: null, email, id, bg }]);
-      }
-    } // eslint-disable-next-line
-  }, [messagesMutation.isSuccess]);
 
   return (
     <div className="direct-chat">

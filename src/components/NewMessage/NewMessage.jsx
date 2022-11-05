@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import "./NewMessage.scss";
 import { AiOutlineClose } from "react-icons/ai";
 import DisplayMessages from "../DisplayMessages/DisplayMessages";
@@ -17,7 +17,10 @@ const NewMessage = ({ users, contacts, setContacts }) => {
   const [receiver, setReceiver] = useState(null);
   const [receiverClass, setReceiverClass] = useState(null);
   const [message, setMessage] = useState("");
-  const messagesMutation = useSendMessage([receiver?.id, receiverClass]);
+  const messagesMutation = useSendMessage([
+    receiver?.id.toString(),
+    receiverClass,
+  ]);
 
   const handleClick = (item) => {
     if (item.email ?? item.name) {
@@ -26,28 +29,27 @@ const NewMessage = ({ users, contacts, setContacts }) => {
     }
   };
 
-  const handleSendClick = async () => {
+  const handleSendClick = () => {
     if (receiver && receiverClass && message) {
       const payload = {
         receiver_id: receiver.id,
         receiver_class: receiverClass,
         body: message,
       };
-      setMessage("");
-      messagesMutation.mutate(payload);
+      const onSuccessFn = () => {
+        setMessage("");
+        if (receiverClass === "User") {
+          const { email, id, bg } = receiver;
+          const unique = contacts.every((contact) => contact.email !== email);
+          if (unique) {
+            saveContacts(receiver);
+            setContacts([...contacts, { name: null, email, id, bg }]);
+          }
+        }
+      };
+      messagesMutation.mutate({ payload, onSuccessFn });
     }
   };
-
-  useEffect(() => {
-    if (messagesMutation.isSuccess && receiverClass === "User") {
-      const { email, id, bg } = receiver;
-      const unique = contacts.every((contact) => contact.email !== email);
-      if (unique) {
-        saveContacts(receiver);
-        setContacts([...contacts, { name: null, email, id, bg }]);
-      }
-    } // eslint-disable-next-line
-  }, [messagesMutation.isSuccess]);
 
   return (
     <div className="new-message">

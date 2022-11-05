@@ -40,14 +40,18 @@ const ChannelDetails = ({ details, members, users }) => {
 
   const handleSubmit = async () => {
     if (newMember) {
-      const body = {
+      const payload = {
         id: details.id,
         member_id: newMember.id,
       };
-      detailsMutation.mutate(body);
-      setKeyword("");
-      setNewMember(null);
-      setTab(2);
+      const onSuccessFn = (data) => {
+        if (!data?.data?.errors) {
+          setKeyword("");
+          setNewMember(null);
+          setTab(2);
+        }
+      };
+      detailsMutation.mutate({ payload, onSuccessFn });
     }
   };
 
