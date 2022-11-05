@@ -1,0 +1,50 @@
+@import "../../assets/sass/variables.scss";
+
+.not-found-page {
+  width: 100vw;
+  height: 100vh;
+
+  nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 70px;
+    padding: 10px 20px;
+
+    .logo {
+      display: block;
+      height: 50px;
+      cursor: pointer;
+    }
+
+    p {
+      border: 2px solid gray;
+      border-radius: 5px;
+      padding: 5px 15px;
+      cursor: pointer;
+    }
+  }
+
+  .glitch {
+    width: 450px;
+    padding: 40px;
+    margin: 50px auto 0;
+    border: 1px solid gray;
+    border-radius: 5px;
+
+    & > div {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      .icon {
+        font-size: 25px;
+        color: $red;
+      }
+    }
+
+    & > p {
+      margin-top: 20px;
+    }
+  }
+}
