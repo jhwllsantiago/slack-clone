@@ -1,4 +1,4 @@
-const saveContacts = ({ name, email, id, bg }) => {
+const saveContacts = (id, name) => {
   const signedIn = localStorage.getItem("signedIn");
   const contacts = localStorage.getItem(`${signedIn}-contacts`)
     ? JSON.parse(localStorage.getItem(`${signedIn}-contacts`))
@@ -6,7 +6,7 @@ const saveContacts = ({ name, email, id, bg }) => {
 
   localStorage.setItem(
     `${signedIn}-contacts`,
-    JSON.stringify([...contacts, { name, email, id, bg }])
+    JSON.stringify([...contacts, { id, name }])
   );
 };
 

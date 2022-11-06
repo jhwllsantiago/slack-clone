@@ -150,7 +150,7 @@ const ChannelDetails = ({ details, members, users }) => {
                   if (!checker) navigate(`/client/message/u/${member.id}`);
                 }}
               >
-                <Avatar transparent={!checker} color={member.bg} />
+                <Avatar colorId={member.id} />
                 <span className="member-details">
                   {checker ? "You" : member.name || member.email}
                 </span>
@@ -162,7 +162,7 @@ const ChannelDetails = ({ details, members, users }) => {
 
       {tab === 3 && newMember && (
         <div className="new-member">
-          <Avatar transparent={true} color={newMember.bg} />
+          <Avatar colorId={newMember.id} />
           <p className="details">{newMember.email}</p>
           <AiOutlineClose
             className="delete-new"

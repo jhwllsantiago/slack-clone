@@ -9,7 +9,6 @@ import { useSendMessage } from "../../api/post";
 
 const DirectChat = ({ users, contacts, setContacts }) => {
   const { id } = useParams();
-  const contact = contacts.find((contact) => contact.id === parseInt(id));
   const user = users.find((user) => user.id === parseInt(id));
   const [message, setMessage] = useState("");
   const messagesMutation = useSendMessage([id, "User"]);
@@ -23,11 +22,11 @@ const DirectChat = ({ users, contacts, setContacts }) => {
       };
       const onSuccessFn = () => {
         setMessage("");
-        const { email, id, bg } = user;
-        const unique = contacts.every((contact) => contact.email !== email);
+        const { id, name } = user;
+        const unique = contacts.every((contact) => contact.id !== id);
         if (unique) {
-          saveContacts(user);
-          setContacts([...contacts, { name: null, email, id, bg }]);
+          saveContacts(id, name);
+          setContacts([...contacts, { id, name }]);
         }
       };
       messagesMutation.mutate({ payload, onSuccessFn });
@@ -36,21 +35,21 @@ const DirectChat = ({ users, contacts, setContacts }) => {
 
   return (
     <div className="direct-chat">
-      {(contact || user) && (
+      {user && (
         <div className="main">
           <div className="name-container">
-            <Avatar transparent={true} color={contact?.bg ?? user?.bg} />
-            <p className="name">{contact?.name || user?.email}</p>
+            <Avatar colorId={user.id} />
+            <p className="name">{user.name}</p>
           </div>
           <hr />
         </div>
       )}
-      {(contact || user) && <DisplayMessages id={id} type={"User"} />}
+      {user && <DisplayMessages id={id} type={"User"} />}
 
       <MessagePane
         message={message}
         setMessage={setMessage}
-        placeholder={`Message ${contact?.name || user?.email}`}
+        placeholder={`Message ${user.name}`}
         onClick={handleSendClick}
       />
     </div>

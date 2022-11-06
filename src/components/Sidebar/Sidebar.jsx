@@ -16,7 +16,7 @@ const Sidebar = ({ users, contacts, setContacts }) => {
         </i>
       </div>
       <hr />
-      <Channels users={users} contacts={contacts} />
+      <Channels users={users} />
       <DirectMessages contacts={contacts} setContacts={setContacts} />
     </div>
   );

@@ -8,10 +8,9 @@
     align-items: center;
     padding: 5px 10px 5px 0;
 
-    img {
-      display: block;
+    .avatar {
       width: 30px;
-      border-radius: 4px;
+      height: 30px;
       cursor: pointer;
     }
   }
@@ -38,11 +37,19 @@
     color: white;
     border-radius: 5px;
 
-    img {
-      display: block;
-      width: 50px;
-      border-radius: 5px;
-      margin: 20px;
+    .name-and-pic {
+      display: flex;
+      
+      .avatar {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        margin: 20px;
+      }
+
+      span {
+        margin-top: 20px;
+      }
     }
 
     hr {

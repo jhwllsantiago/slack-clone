@@ -4,7 +4,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import ChannelList from "../ChannelList/ChannelList";
 import NewChannel from "./NewChannel";
 
-const Channels = ({ users, contacts }) => {
+const Channels = ({ users }) => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -22,13 +22,7 @@ const Channels = ({ users, contacts }) => {
       {showModal && (
         <div className="backdrop" onClick={() => setShowModal(false)}></div>
       )}
-      {showModal && (
-        <NewChannel
-          users={users}
-          contacts={contacts}
-          setShowModal={setShowModal}
-        />
-      )}
+      {showModal && <NewChannel users={users} setShowModal={setShowModal} />}
     </div>
   );
 };

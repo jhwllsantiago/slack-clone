@@ -6,7 +6,7 @@ import { useState } from "react";
 import { useAddChannel } from "../../api/post";
 import { useNavigate } from "react-router-dom";
 
-const NewChannel = ({ users, contacts, setShowModal }) => {
+const NewChannel = ({ users, setShowModal }) => {
   const navigate = useNavigate();
   const signedIn = localStorage.getItem("signedIn");
   const [newChannel, setNewChannel] = useState("");
@@ -78,7 +78,7 @@ const NewChannel = ({ users, contacts, setShowModal }) => {
             <input
               className="search-input"
               type="text"
-              placeholder="name or email"
+              placeholder="somebody@example.com"
               spellCheck={false}
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
@@ -86,23 +86,25 @@ const NewChannel = ({ users, contacts, setShowModal }) => {
             <BiSearch className="search-icon" />
           </div>
 
-          {users && keyword && (
+          {keyword && (
             <ul className="users-list">
-              {contacts.concat(users).map((user, idx) => {
+              {users.map((user) => {
+                const { id, email } = user;
+
                 if (
-                  user.id === parseInt(signedIn) ||
-                  members.some((member) => member.id === user.id) ||
-                  !(
-                    user.email.startsWith(keyword) ||
-                    (user.name && user.name.startsWith(keyword))
-                  )
+                  id === parseInt(signedIn) ||
+                  members.some((member) => member.id === id)
                 ) {
                   return null;
                 }
 
+                if (!email.toLowerCase().startsWith(keyword.toLowerCase())) {
+                  return null;
+                }
+
                 return (
-                  <li key={idx} onClick={() => handleUserClick(user)}>
-                    {user.name || user.email}
+                  <li key={id} onClick={() => handleUserClick(user)}>
+                    {email}
                   </li>
                 );
               })}
@@ -114,8 +116,8 @@ const NewChannel = ({ users, contacts, setShowModal }) => {
             members.map((member, idx) => {
               return (
                 <li key={idx} className="member">
-                  <Avatar transparent={true} color={member.bg} />
-                  <span>{member.name || member.email}</span>
+                  <Avatar colorId={member.id} />
+                  <span>{member.name}</span>
                   <AiOutlineClose
                     className="close"
                     onClick={() => handleDelete(idx)}

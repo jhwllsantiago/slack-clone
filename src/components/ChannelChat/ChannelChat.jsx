@@ -11,6 +11,7 @@ import { getChannelDetails } from "../../api/get";
 import loadingGif from "../../assets/images/circle.gif";
 import { useSendMessage } from "../../api/post";
 import NotFound from "../../pages/NotFound/NotFound";
+import Avatar from "../Avatar/Avatar";
 
 const ChannelChat = ({ users }) => {
   const { id } = useParams();
@@ -78,10 +79,10 @@ const ChannelChat = ({ users }) => {
         </div>
 
         <div className="manage-channel" onClick={() => setShowModal(true)}>
-          {members.slice(0, 3).map((member, idx) => {
+          {members.slice(0, 3).map(({ id }, idx) => {
             return (
-              <div className={`member-${idx}`} key={idx}>
-                {member.email.substring(0, 1).toUpperCase()}
+              <div className={`member-${idx}`} key={id}>
+                <Avatar colorId={id} />
               </div>
             );
           })}

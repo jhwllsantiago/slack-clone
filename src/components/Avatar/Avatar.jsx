@@ -1,14 +1,14 @@
 import "./Avatar.scss";
-import solid from "../../assets/images/avatar-default.png";
-import transp from "../../assets/images/avatar-transparent.png";
+import avatar from "../../assets/images/avatar-transparent.svg";
+import colorById from "../../util/colorNames";
 
-const Avatar = ({ transparent, color }) => {
+const Avatar = ({ colorId }) => {
   return (
     <img
-      src={transparent ? transp : solid}
+      src={avatar}
       alt=""
       className="avatar"
-      style={{ backgroundColor: color }}
+      style={{ backgroundColor: colorById(colorId) }}
     />
   );
 };

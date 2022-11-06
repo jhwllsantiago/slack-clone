@@ -8,8 +8,8 @@ import loadingGif from "../../assets/images/circle.gif";
 import getHeaders from "../../util/getHeaders";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { getChannelList, getUsers } from "../../api/get";
-import randomColor from "../../util/randomColor";
 import NotFound from "../NotFound/NotFound";
+import assignName from "../../util/assignName";
 
 const Client = () => {
   const queryClient = useQueryClient();
@@ -18,7 +18,7 @@ const Client = () => {
     queryFn: getUsers,
     onSuccess: (users) => {
       const mapped = users?.map((user) => {
-        return { ...user, bg: randomColor(200) };
+        return { ...user, name: user.name ?? assignName(user) };
       });
       queryClient.setQueryData(["users"], mapped);
     },

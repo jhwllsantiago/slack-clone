@@ -39,11 +39,11 @@ const NewMessage = ({ users, contacts, setContacts }) => {
       const onSuccessFn = () => {
         setMessage("");
         if (receiverClass === "User") {
-          const { email, id, bg } = receiver;
-          const unique = contacts.every((contact) => contact.email !== email);
+          const { id, name } = receiver;
+          const unique = contacts.every((contact) => contact.id !== id);
           if (unique) {
-            saveContacts(receiver);
-            setContacts([...contacts, { name: null, email, id, bg }]);
+            saveContacts(id, name);
+            setContacts([...contacts, { id, name }]);
           }
         }
       };
@@ -71,9 +71,7 @@ const NewMessage = ({ users, contacts, setContacts }) => {
           {receiver && (
             <div className="receiver">
               {receiverClass === "Channel" && <FaLock />}{" "}
-              {receiverClass === "User" && (
-                <Avatar transparent={true} color={receiver.bg} />
-              )}
+              {receiverClass === "User" && <Avatar colorId={receiver.id} />}
               <span>{receiver.email ?? receiver.name}</span>
               <AiOutlineClose
                 className="remove"

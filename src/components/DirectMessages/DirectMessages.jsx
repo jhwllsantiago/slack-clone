@@ -1,37 +1,14 @@
-import { MdDriveFileRenameOutline, MdSave } from "react-icons/md";
-import { useState } from "react";
 import "./DirectMessages.scss";
 import { NavLink } from "react-router-dom";
 import Avatar from "../Avatar/Avatar";
 
-const DirectMessages = ({ contacts, setContacts }) => {
-  const signedIn = localStorage.getItem("signedIn");
-  const [newInfo, setNewInfo] = useState("");
-  const [newInfoIdx, setNewInfoIdx] = useState(-1);
-
-  const handleEdit = (idx, info) => {
-    setNewInfoIdx(idx);
-    setNewInfo(info);
-  };
-  const handleUpdate = (idx) => {
-    const updatedDMs = contacts.map((contact, index) => {
-      if (index === idx) {
-        return { ...contact, name: newInfo };
-      } else {
-        return contact;
-      }
-    });
-    setContacts(updatedDMs);
-    setNewInfoIdx(-1);
-    localStorage.setItem(`${signedIn}-contacts`, JSON.stringify(updatedDMs));
-  };
-
+const DirectMessages = ({ contacts }) => {
   return (
     <div className="direct-messages">
       <p>Direct messages</p>
       <ul className="dm-list">
         {contacts &&
-          contacts.map(({ name, email, id, bg }, idx) => {
+          contacts.map(({ id, name }, idx) => {
             return (
               <NavLink
                 key={idx}
@@ -42,34 +19,8 @@ const DirectMessages = ({ contacts, setContacts }) => {
                   color: isActive && "white",
                 })}
               >
-                <Avatar transparent={true} color={bg} />
-                {newInfoIdx === idx && (
-                  <>
-                    <input
-                      className="dm-input"
-                      autoFocus
-                      type="text"
-                      spellCheck="false"
-                      value={newInfo}
-                      maxLength={30}
-                      onChange={(e) => setNewInfo(e.target.value)}
-                      onBlur={() => handleUpdate(idx)}
-                    />
-                    <MdSave
-                      className="icon save"
-                      onClick={() => handleUpdate(idx)}
-                    />
-                  </>
-                )}
-                {newInfoIdx !== idx && (
-                  <>
-                    <span className="dm-detail">{name ? name : email}</span>
-                    <MdDriveFileRenameOutline
-                      className="icon rename"
-                      onClick={() => handleEdit(idx, name ? name : email)}
-                    />
-                  </>
-                )}
+                <Avatar colorId={id} />
+                <span className="dm-detail">{name}</span>
               </NavLink>
             );
           })}

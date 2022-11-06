@@ -58,30 +58,24 @@
       .member-1,
       .member-2 {
         display: inline-block;
-        background-color: $red;
-        font-size: 15px;
-        border-radius: 5px;
-        text-align: center;
-        line-height: 20px;
         width: 20px;
         height: 20px;
-        font-family: "Alice", serif;
-        color: white;
         position: relative;
       }
       .member-0 {
         z-index: 8;
-        background-color: $violet;
       }
       .member-1 {
         z-index: 7;
-        background-color: $blue;
         transform: translateX(-5px);
       }
       .member-2 {
         z-index: 6;
-        background-color: $yellow;
         transform: translateX(-10px);
+      }
+      .avatar {
+        width: 25px;
+        height: 25px;
       }
 
       .member-number {
