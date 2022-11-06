@@ -28,6 +28,22 @@ const DisplayMessages = ({ id, type }) => {
   return (
     <div className="display-messages">
       <ul className="message-list">
+        {data && (
+          <div className="beginning">
+            {type === "Channel" ? (
+              <p>
+                This is the very beginning of the
+                {data[0]?.receiver.name ? ` #${data[0]?.receiver.name} ` : " "}
+                channel.
+              </p>
+            ) : (
+              <p>
+                This conversation is just between the two of you. Here you can
+                send messages.
+              </p>
+            )}
+          </div>
+        )}
         {data?.map((message, idx, messages) => {
           const { created_at, id, sender } = message;
           const sameDate =
