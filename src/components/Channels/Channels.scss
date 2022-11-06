@@ -127,9 +127,31 @@
 
       .flex-container {
         display: flex;
+        margin-top: 10px;
+        gap: 10px;
 
-        input {
+        .input-container {
           width: 200px;
+          position: relative;
+
+          input {
+            width: 100%;
+            border: 1px solid rgb(255, 255, 255, 0.1);
+            border-radius: 5px;
+            padding: 5px 5px 5px 40px;
+            outline: none;
+
+            &:focus {
+              outline: 3px solid $blue;
+            }
+          }
+
+          .icon {
+            position: absolute;
+            font-size: 20px;
+            top: 10px;
+            left: 10px;
+          }
         }
 
         .warning {
@@ -169,7 +191,7 @@
         overflow-x: hidden;
         overflow-y: auto;
         position: absolute;
-        height: 310px;
+        height: 300px;
 
         .member {
           display: grid;
@@ -207,12 +229,10 @@
       left: 50%;
       transform: translateX(-50%);
       font-size: inherit;
-      background-color: inherit;
       color: inherit;
       border: none;
-      border-radius: 10px;
+      border-radius: 5px;
       padding: 5px 15px;
-      cursor: pointer;
 
       &:hover {
         background-color: $darker;

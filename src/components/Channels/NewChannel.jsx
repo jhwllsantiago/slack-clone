@@ -1,4 +1,4 @@
-import { BiSearch } from "react-icons/bi";
+import { BiSearch, BiLockAlt } from "react-icons/bi";
 import Avatar from "../Avatar/Avatar";
 import { AiOutlineClose } from "react-icons/ai";
 import { MdErrorOutline } from "react-icons/md";
@@ -47,22 +47,25 @@ const NewChannel = ({ users, setShowModal }) => {
 
   return (
     <form className="modal" onSubmit={(e) => handleSubmit(e)}>
-      <p>Create Channel</p>
+      <p>Create a channel</p>
       <hr />
       <div className="channel-name">
-        <label>Channel Name</label>
+        <label>Name</label>
         <div className="flex-container">
-          <input
-            autoFocus
-            required
-            type="text"
-            placeholder="channel01"
-            maxLength={15}
-            minLength={3}
-            spellCheck={false}
-            value={newChannel}
-            onChange={(e) => handleChange(e)}
-          />
+          <div className="input-container">
+            <input
+              autoFocus
+              required
+              type="text"
+              placeholder="channel-name"
+              maxLength={15}
+              minLength={3}
+              spellCheck={false}
+              value={newChannel}
+              onChange={(e) => handleChange(e)}
+            />
+            <BiLockAlt className="icon" />
+          </div>
           {isTaken && (
             <div className="warning">
               <MdErrorOutline />
@@ -127,7 +130,18 @@ const NewChannel = ({ users, setShowModal }) => {
             })}
         </ul>
       </div>
-      <button type="submit">Continue</button>
+      <button
+        type="submit"
+        style={{
+          backgroundColor:
+            newChannel.length > 2 && !isTaken
+              ? "rgba(44, 181, 124, 255)"
+              : "rgba(56, 55, 60, 255)",
+          cursor: newChannel.length > 2 && !isTaken ? "pointer" : "default",
+        }}
+      >
+        Create
+      </button>
     </form>
   );
 };
