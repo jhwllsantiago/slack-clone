@@ -18,6 +18,10 @@ const Channels = ({ users }) => {
           />
         </div>
         <ChannelList />
+        <div className="add-channels" onClick={() => setShowModal(true)}>
+          <AiOutlinePlus className="plus-icon" />
+          <p>Add channels</p>
+        </div>
       </div>
       {showModal && (
         <div className="backdrop" onClick={() => setShowModal(false)}></div>

@@ -25,11 +25,33 @@
         cursor: pointer;
         display: none;
       }
+
+      p {
+        font-size: 18px;
+        padding-left: 15px;
+      }
+    }
+  }
+
+  .add-channels {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    height: 30px;
+    gap: 10px;
+    padding: 5px 20px 0 20px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: $darker-hl;
     }
 
-    p {
-      font-size: 18px;
-      padding-left: 15px;
+    .plus-icon {
+      padding: 2px;
+      width: 20px;
+      height: 20px;
+      border-radius: 5px;
+      background-color: $gray;
     }
   }
 

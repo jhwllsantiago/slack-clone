@@ -1,7 +1,7 @@
 import { NavLink } from "react-router-dom";
 import "./ChannelList.scss";
 import loadingGif from "../../assets/images/circle.gif";
-import { FaLock } from "react-icons/fa";
+import { BiLockAlt } from "react-icons/bi";
 import { getChannelDetails, getChannelList, getMessages } from "../../api/get";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import { useEffect } from "react";
@@ -48,7 +48,7 @@ const ChannelList = () => {
                 color: isActive && "white",
               })}
             >
-              <FaLock /> <span>{name}</span>
+              <BiLockAlt /> <span>{name}</span>
             </NavLink>
           );
         })}
